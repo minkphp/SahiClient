@@ -2,37 +2,53 @@
 
 namespace Test\SahiDriver;
 
-use Buzz;
-use Buzz\Client\Mock;
 use Everzet\SahiDriver\Browser;
-require_once 'AbstractDriverTest.php';
-require_once 'ExtendedJournal.php';
+require_once 'AbstractConnectionTest.php';
 
-class BrowserTest extends AbstractDriverTest
+class BrowserTest extends AbstractConnectionTest
 {
-    private $browser;
     private $api;
 
     public function setUp()
     {
-        $this->browser  = new Buzz\Browser(new Mock\LIFO(), new ExtendedJournal());
-        $this->api      = $this->createBrowser($sid = uniqid(), $this->browser);
+        $connection = $this->getConnectionMock();
+        $this->api  = new Browser($connection);
+    }
+
+    public function testNavigateTo()
+    {
+        $this->assertActionStep(
+            sprintf('_sahi._navigateTo("%s")', 'http://sahi.co.in'),
+            array($this->api, 'navigateTo'),
+            array('http://sahi.co.in')
+        );
+
+        $this->assertActionStep(
+            sprintf('_sahi._navigateTo("%s", true)', 'http://sahi.co.in'),
+            array($this->api, 'navigateTo'),
+            array('http://sahi.co.in', true)
+        );
+
+        $this->assertActionStep(
+            sprintf('_sahi._navigateTo("%s", false)', 'http://sahi.co.in'),
+            array($this->api, 'navigateTo'),
+            array('http://sahi.co.in', false)
+        );
     }
 
     public function testSetSpeed()
     {
-        $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK'));
-
-        $this->api->setSpeed(222);
-
-        $request = $this->browser->getJournal()->getLastRequest();
-
-        $this->assertEquals('http://localhost:9999/_s_/dyn/Driver_setSpeed', $request->getUrl());
-        $this->assertContains('speed=222', $request->getContent());
+        $this->assertActionCommand(
+            'setSpeed', array('speed' => 12),
+            array($this->api, 'setSpeed'),
+            array(12)
+        );
     }
 
-    protected function createBrowser($sid, Buzz\Browser $browser)
+    public function testFindByClassName()
     {
-        return new Browser($this->createConnection($sid, $browser, true));
+        $accessor = $this->api->findByClassName('', '');
+
+        $this->assertInstanceOf('Everzet\SahiDriver\Accessor\ByClassNameAccessor', $accessor);
     }
 }

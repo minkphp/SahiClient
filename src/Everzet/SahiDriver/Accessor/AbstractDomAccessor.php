@@ -15,15 +15,11 @@ use Everzet\SahiDriver\Exception;
 
 /**
  * Abstract Element Accessor.
+ *
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class DomElement extends AbstractAccessor
+abstract class AbstractDomAccessor extends AbstractRelationalAccessor
 {
-    /**
-     * Element type
-     *
-     * @var     string
-     */
-    protected   $type;
     /**
      * Element identifier
      *
@@ -32,23 +28,13 @@ class DomElement extends AbstractAccessor
     protected   $id;
 
     /**
-     * List of available element types.
-     *
-     * @var     array
-     */
-    private     $availableElements = array(
-        'link', 'image', 'label', 'listItem', 'div', 'span', 'spandiv', 'heading1', 'heading2', 'heading3',
-        'heading4', 'heading5', 'heading6', 'title', 'cell', 'row', 'table', 'tableHeader', 'button',
-        'checkbox', 'password', 'radio', 'submit', 'textbox', 'reset', 'file', 'imageSubmitButton',
-        'select', 'option', 'textbox', 'hidden'
-    );
-
-    /**
      * Initialize Accessor.
      *
-     * @param   Connection  $connection Sahi Connection
+     * @param   string      $id         element identifier (if null - "0" will be used)
+     * @param   array       $relations  relations array array('near' => accessor, 'under' => accessor)
+     * @param   Connection  $con        Sahi connection
      */
-    public function __construct($type, $id = null, array $relations = array(), Connection $con)
+    public function __construct($id, array $relations, Connection $con)
     {
         parent::__construct($con);
 
@@ -56,12 +42,7 @@ class DomElement extends AbstractAccessor
             $this->$relation($accessor);
         }
 
-        if (!in_array($type, $this->availableElements)) {
-            throw new Exception\AccessorException(sprintf('Unknown element type: %s.', $type));
-        }
-
-        $this->type = $type;
-        $this->id   = $id;
+        $this->id = $id;
     }
 
     /**
@@ -69,19 +50,14 @@ class DomElement extends AbstractAccessor
      *
      * @return  string
      */
-    public function getType()
-    {
-        return $this->type;
-    }
+    abstract public function getType();
 
     /**
-     * Return accessor string.
-     *
-     * @return  string
+     * {@inheritdoc}
      */
     public function getAccessor()
     {
-        return sprintf('_sahi._%s(%s)', $this->type, $this->getArgumentsString());
+        return sprintf('_sahi._%s(%s)', $this->getType(), $this->getArgumentsString());
     }
 
     /**
@@ -117,6 +93,6 @@ class DomElement extends AbstractAccessor
             return $this->id;
         }
 
-        return "'" . $this->id . "'";
+        return '"' . $this->id . '"';
     }
 }

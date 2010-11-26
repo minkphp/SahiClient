@@ -1,6 +1,8 @@
 <?php
 
-namespace Everzet\SahiDriver\Exception;
+namespace Everzet\SahiDriver\Accessor;
+
+use Everzet\SahiDriver\Exception;
 
 /*
  * This file is part of the SahiDriver.
@@ -11,10 +13,17 @@ namespace Everzet\SahiDriver\Exception;
  */
 
 /**
- * Sahi Connection Exception.
+ * Label Element Accessor.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ConnectionException extends AbstractException
+class LabelAccessor extends AbstractDomAccessor
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return 'label';
+    }
 }

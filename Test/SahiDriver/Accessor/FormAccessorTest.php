@@ -2,12 +2,6 @@
 
 namespace Test\SahiDriver\Accessor;
 
-use Buzz\Browser;
-use Buzz\Client\Mock;
-require_once __DIR__ . '/../AbstractDriverTest.php';
-require_once __DIR__ . '/../ExtendedJournal.php';
-use Test\SahiDriver\AbstractDriverTest;
-use Test\SahiDriver\ExtendedJournal;
 require_once 'AbstractAccessorTest.php';
 
 use Everzet\SahiDriver\Accessor;
@@ -18,8 +12,7 @@ class FormAccessorTest extends AbstractAccessorTest
 
     public function setUp()
     {
-        $browser    = new Browser(new Mock\LIFO(), new ExtendedJournal());
-        $this->con  = $this->createConnection(uniqid(), $browser, true);
+        $this->con = $this->getConnectionMock();
     }
 
     public function testButton()
@@ -28,36 +21,16 @@ class FormAccessorTest extends AbstractAccessorTest
 
         $this->assertEquals('_sahi._button("Cancel")', $accessor->getAccessor());
         $this->assertSame($this->con, $accessor->getConnection());
-    }
-
-    public function testButtonRelations()
-    {
-        $accessor1 = new Accessor\Table\TableAccessor(2, array(), $this->con);
-        $accessor2 = new Accessor\Form\ButtonAccessor('Save!', array('under' => $accessor1), $this->con);
-
-        $this->assertEquals(
-            '_sahi._button("Save!", _sahi._under(_sahi._table(2)))',
-            $accessor2->getAccessor()
-        );
+        $this->assertRelations($accessor, '_sahi._button("Cancel", ');
     }
 
     public function testOption()
     {
-        $accessor = new Accessor\Form\ButtonAccessor("Cancel", array(), $this->con);
+        $accessor = new Accessor\Form\OptionAccessor("Man", array(), $this->con);
 
-        $this->assertEquals('_sahi._button("Cancel")', $accessor->getAccessor());
+        $this->assertEquals('_sahi._option("Man")', $accessor->getAccessor());
         $this->assertSame($this->con, $accessor->getConnection());
-    }
-
-    public function testOptionRelations()
-    {
-        $accessor1 = new Accessor\Table\TableAccessor(2, array(), $this->con);
-        $accessor2 = new Accessor\Form\ButtonAccessor('Save!', array('under' => $accessor1), $this->con);
-
-        $this->assertEquals(
-            '_sahi._button("Save!", _sahi._under(_sahi._table(2)))',
-            $accessor2->getAccessor()
-        );
+        $this->assertRelations($accessor, '_sahi._option("Man", ');
     }
 
     public function testRadio()
@@ -71,17 +44,7 @@ class FormAccessorTest extends AbstractAccessorTest
             '_sahi._radio("id").checked', 'true',
             array($accessor, 'isChecked')
         );
-    }
-
-    public function testRadioRelations()
-    {
-        $accessor1 = new Accessor\Table\TableAccessor(2, array(), $this->con);
-        $accessor2 = new Accessor\Form\RadioAccessor('id', array('under' => $accessor1), $this->con);
-
-        $this->assertEquals(
-            '_sahi._radio("id", _sahi._under(_sahi._table(2)))',
-            $accessor2->getAccessor()
-        );
+        $this->assertRelations($accessor, '_sahi._radio("id", ');
     }
 
     public function testCheckbox()
@@ -96,17 +59,7 @@ class FormAccessorTest extends AbstractAccessorTest
             '_sahi._checkbox("id").checked', 'true',
             array($accessor, 'isChecked')
         );
-    }
-
-    public function testCheckboxRelations()
-    {
-        $accessor1 = new Accessor\Table\TableAccessor(2, array(), $this->con);
-        $accessor2 = new Accessor\Form\CheckboxAccessor('id', array('under' => $accessor1), $this->con);
-
-        $this->assertEquals(
-            '_sahi._checkbox("id", _sahi._under(_sahi._table(2)))',
-            $accessor2->getAccessor()
-        );
+        $this->assertRelations($accessor, '_sahi._checkbox("id", ');
     }
 
     public function testFile()
@@ -120,54 +73,101 @@ class FormAccessorTest extends AbstractAccessorTest
             array($accessor, 'setFile'),
             array('/tmp/simple.gif')
         );
-    }
-
-    public function testFileRelations()
-    {
-        $accessor1 = new Accessor\Table\TableAccessor(2, array(), $this->con);
-        $accessor2 = new Accessor\Form\FileAccessor('id', array('under' => $accessor1), $this->con);
-
-        $this->assertEquals(
-            '_sahi._file("id", _sahi._under(_sahi._table(2)))',
-            $accessor2->getAccessor()
-        );
+        $this->assertRelations($accessor, '_sahi._file("id", ');
     }
 
     public function testHidden()
     {
-        $accessor = new Accessor\Form\HiddenAccessor("Cancel", array(), $this->con);
+        $accessor = new Accessor\Form\HiddenAccessor("_csrf_token", array(), $this->con);
 
-        $this->assertEquals('_sahi._hidden("Cancel")', $accessor->getAccessor());
+        $this->assertEquals('_sahi._hidden("_csrf_token")', $accessor->getAccessor());
         $this->assertSame($this->con, $accessor->getConnection());
+        $this->assertRelations($accessor, '_sahi._hidden("_csrf_token", ');
     }
 
-    public function testHiddenRelations()
+    public function testImageSubmitButton()
     {
-        $accessor1 = new Accessor\Table\TableAccessor(2, array(), $this->con);
-        $accessor2 = new Accessor\Form\HiddenAccessor('Save!', array('under' => $accessor1), $this->con);
+        $accessor = new Accessor\Form\ImageSubmitButtonAccessor("Cancel", array(), $this->con);
 
-        $this->assertEquals(
-            '_sahi._hidden("Save!", _sahi._under(_sahi._table(2)))',
-            $accessor2->getAccessor()
-        );
-    }
-    
-    public function testImageSubmitButtonAccessor()
-    {
-        $accessor = new Accessor\Form\ImageSubmitButtonAccessorAccessor("Cancel", array(), $this->con);
-
-        $this->assertEquals('_sahi._hidden("Cancel")', $accessor->getAccessor());
+        $this->assertEquals('_sahi._imageSubmitButton("Cancel")', $accessor->getAccessor());
         $this->assertSame($this->con, $accessor->getConnection());
+        $this->assertRelations($accessor, '_sahi._imageSubmitButton("Cancel", ');
     }
 
-    public function testImageSubmitButtonAccessorRelations()
+    public function testPassword()
     {
-        $accessor1 = new Accessor\Table\TableAccessor(2, array(), $this->con);
-        $accessor2 = new Accessor\Form\ImageSubmitButtonAccessorAccessor('Save!', array('under' => $accessor1), $this->con);
+        $accessor = new Accessor\Form\PasswordAccessor("New pass", array(), $this->con);
 
-        $this->assertEquals(
-            '_sahi._hidden("Save!", _sahi._under(_sahi._table(2)))',
-            $accessor2->getAccessor()
+        $this->assertEquals('_sahi._password("New pass")', $accessor->getAccessor());
+        $this->assertSame($this->con, $accessor->getConnection());
+        $this->assertRelations($accessor, '_sahi._password("New pass", ');
+    }
+
+    public function testReset()
+    {
+        $accessor = new Accessor\Form\ResetAccessor("New pass", array(), $this->con);
+
+        $this->assertEquals('_sahi._reset("New pass")', $accessor->getAccessor());
+        $this->assertSame($this->con, $accessor->getConnection());
+        $this->assertRelations($accessor, '_sahi._reset("New pass", ');
+    }
+
+    public function testSelect()
+    {
+        $accessor = new Accessor\Form\SelectAccessor("city", array(), $this->con);
+
+        $this->assertEquals('_sahi._select("city")', $accessor->getAccessor());
+        $this->assertSame($this->con, $accessor->getConnection());
+        $this->assertActionJavascript(
+            '_sahi._getSelectedText(_sahi._select("city"))', 'New York',
+            array($accessor, 'getSelectedText')
         );
+
+        $this->assertActionStep(
+            '_sahi._setSelected(_sahi._select("city"), "Moscow")',
+            array($accessor, 'choose'),
+            array('Moscow')
+        );
+
+        $this->assertActionStep(
+            '_sahi._setSelected(_sahi._select("city"), "Minsk", true)',
+            array($accessor, 'choose'),
+            array('Minsk', true)
+        );
+
+        $this->assertActionStep(
+            '_sahi._setSelected(_sahi._select("city"), "New York", false)',
+            array($accessor, 'choose'),
+            array('New York', false)
+        );
+
+        $this->assertRelations($accessor, '_sahi._select("city", ');
+    }
+
+    public function testSubmit()
+    {
+        $accessor = new Accessor\Form\SubmitAccessor("Save", array(), $this->con);
+
+        $this->assertEquals('_sahi._submit("Save")', $accessor->getAccessor());
+        $this->assertSame($this->con, $accessor->getConnection());
+        $this->assertRelations($accessor, '_sahi._submit("Save", ');
+    }
+
+    public function testTextarea()
+    {
+        $accessor = new Accessor\Form\TextareaAccessor("about me", array(), $this->con);
+
+        $this->assertEquals('_sahi._textarea("about me")', $accessor->getAccessor());
+        $this->assertSame($this->con, $accessor->getConnection());
+        $this->assertRelations($accessor, '_sahi._textarea("about me", ');
+    }
+
+    public function testTextbox()
+    {
+        $accessor = new Accessor\Form\TextboxAccessor("q", array(), $this->con);
+
+        $this->assertEquals('_sahi._textbox("q")', $accessor->getAccessor());
+        $this->assertSame($this->con, $accessor->getConnection());
+        $this->assertRelations($accessor, '_sahi._textbox("q", ');
     }
 }

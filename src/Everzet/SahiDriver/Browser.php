@@ -14,6 +14,8 @@ use Everzet\SahiDriver\Accessor;
 
 /**
  * Browser Accessor API methods.
+ *
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class Browser
 {
@@ -35,53 +37,40 @@ class Browser
     }
 
     /**
-     * Create & return new DomElement tied to current connection.
+     * Set Sahi Connection.
      *
-     * $browser->selectLink()
-     * $browser->selectLink(12)
-     * $browser->selectImage('sahi_id')
-     * $browser->selectLabel('agree')
-     * $browser->selectDiv('/.*_div/')
-     *
-     * @param   string  $func       function name
-     * @param   string  $arguments  function arguments
-     *
-     * @return  DomElement
+     * @param   Connection  $con    Sahi Connection
      */
-    public function __call($func, $arguments)
+    public function setConnection(Connection $con)
     {
-        if (preg_match('/^select(.*)$/', $func, $matches)) {
-            return new Accessor\DomElement(
-                lcfirst($matches[1]),
-                isset($arguments[0]) ? $arguments[0] : null,
-                isset($arguments[1]) ? $arguments[1] : array(),
-                $this->con
-            );
-        } else {
-            throw new \InvalidArgumentException(
-                sprintf('Unknown method called %s::%s', get_class($this), $func)
-            );
-        }
+        $this->con = $con;
     }
 
     /**
-     * Return browser title.
+     * Return Accessor active connection instance.
      *
-     * @return  string
+     * @return  Connection
      */
-    public function getTitle()
+    public function getConnection()
     {
-        return $this->con->executeJavascript('_sahi._title()');
+        return $this->con;
     }
 
     /**
      * Navigates to the given URL.
      *
      * @param   string  $url    URL
+     * @param   boolean $reload force reload
      */
-    public function navigateTo($url)
+    public function navigateTo($url, $reload = null)
     {
-        $this->con->executeStep(sprintf('_sahi._navigateTo("%s")', $url));
+        $arguments = array('"' . quoted_printable_encode($url) . '"');
+
+        if (null !== $reload) {
+            $arguments[] = (bool) $reload ? 'true' : 'false';
+        }
+
+        $this->con->executeStep(sprintf('_sahi._navigateTo(%s)', implode(', ', $arguments)));
     }
 
     /**
@@ -95,104 +84,380 @@ class Browser
     }
 
     /**
-     * Get last browser alert message.
+     * Find element on page by specified class & tag.
      *
-     * @return  string|null
-     */
-    public function getLastAlert()
-    {
-        return $this->con->executeJavascript('_sahi._lastAlert()');
-    }
-
-    /**
-     * Clear last browser alert message.
-     */
-    public function clearLastAlert()
-    {
-        $this->con->executeStep('_sahi._clearLastAlert()');
-    }
-
-    /**
-     * Get last browser confirm message.
+     * @param   string  $class      tag class
+     * @param   string  $tag        tag name
+     * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  string|null
+     * @return  ByClassNameAccessor
      */
-    public function getLastConfirm()
+    public function findByClassName($class, $tag, array $relations = array())
     {
-        return $this->con->executeJavascript('_sahi._lastConfirm()');
+        return new Accessor\ByClassNameAccessor($class, $tag, $relations, $this->con);
     }
 
     /**
-     * Clear last browser confirm message.
-     */
-    public function clearLastConfirm()
-    {
-        $this->con->executeStep('_sahi._clearLastConfirm()');
-    }
-
-    /**
-     * Set an expectation to press OK (true) or Cancel (false) for specific confirm message.
+     * Find element by id.
      *
-     * @param   string  $message    confirm message
-     * @param   string  $input      OK|Cancel
-     */
-    public function expectConfirm($message, $input)
-    {
-        $this->con->executeStep(sprintf('_sahi._expectConfirm(\'%s\', %s)', $message, $input));
-    }
-
-    /**
-     * Get last browser prompt message.
+     * @param   string  $id element id
      *
-     * @return  string|null
+     * @return  ByIdAccessor
      */
-    public function getLastPrompt()
+    public function findById($id)
     {
-        return $this->con->executeJavascript('_sahi._lastPrompt()');
+        return new Accessor\ByIdAccessor($id, $this->con);
     }
 
     /**
-     * Clear last browser prompt message.
-     */
-    public function clearLastPrompt()
-    {
-        $this->con->executeStep('_sahi._clearLastPrompt()');
-    }
-
-    /**
-     * Set an expectation to press OK (true) or Cancel (false) for specific prompt message.
+     * Find element by it's text.
      *
-     * @param   string  $message    prompt message
-     * @param   string  $input      OK|Cancel
-     */
-    public function expectPrompt($message, $input)
-    {
-        $this->con->executeStep(sprintf('_sahi._expectPrompt(\'%s\', %s)', $message, $input));
-    }
-
-    /**
-     * Return last downloaded file's filename.
+     * @param   string  $text   tag text
+     * @param   string  $tag    tag name
      *
-     * @return  string|null
+     * @return  ByTextAccessor
      */
-    public function getLastDownloadedFilename()
+    public function findByText($text, $tag)
     {
-        return $this->con->executeJavascript('_sahi._lastDownloadedFileName()');
+        return new Accessor\ByTextAccessor($text, $tag, $this->con);
     }
 
     /**
-     * Clear last browser downloaded file's filename.
+     * Find element by it's text.
+     *
+     * @param   string  $xpath      XPath expression
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  ByXPathAccessor
      */
-    public function clearLastDownloadedFilename()
+    public function findByXPath($xpath, array $relations = array())
     {
-        $this->con->executeStep('_sahi._lastDownloadedFileName()');
+        return new Accessor\ByXPathAccessor($xpath, $relations, $this->con);
     }
 
     /**
-     * Save last browser downloaded file at path.
+     * Find DIV element.
+     *
+     * @param   string  $id         element identifier
+     * @param   string  $tag        tag name
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  DivAccessor
      */
-    public function saveLastDownloadedFile($path)
+    public function findDiv($id = null, array $relations = array())
     {
-        $this->con->executeStep(sprintf('_sahi._saveDownloadedAs(\'%s\')', $path));
+        return new Accessor\DivAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find element by it's JS DOM representation.
+     *
+     * @param   string  $dom    DOM expression
+     *
+     * @return  DomAccessor
+     */
+    public function findDom($dom)
+    {
+        return new Accessor\DomAccessor($dom, $this->con);
+    }
+
+    /**
+     * Find heading element (h1, h2, h3)
+     *
+     * @param   integer $level      heading level 1 for h1, 2 for h2, ...
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  HeadingAccessor
+     */
+    public function findHeader($level = 1, $id = null, array $relations = array())
+    {
+        return new Accessor\HeadingAccessor($level, $id, $relations, $this->con);
+    }
+
+    /**
+     * Find img element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  ImageAccessor
+     */
+    public function findImage($id = null, array $relations = array())
+    {
+        return new Accessor\ImageAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find label element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  LabelAccessor
+     */
+    public function findLabel($id = null, array $relations = array())
+    {
+        return new Accessor\LabelAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find a element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  LinkAccessor
+     */
+    public function findLink($id = null, array $relations = array())
+    {
+        return new Accessor\LinkAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find li element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  ListItemAccessor
+     */
+    public function findListItem($id = null, array $relations = array())
+    {
+        return new Accessor\ListItemAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find span element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  SpanAccessor
+     */
+    public function findSpan($id = null, array $relations = array())
+    {
+        return new Accessor\SpanAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find button element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  ButtonAccessor
+     */
+    public function findButton($id = null, array $relations = array())
+    {
+        return new Accessor\Form\ButtonAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find checkbox element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  CheckboxAccessor
+     */
+    public function findCheckbox($id = null, array $relations = array())
+    {
+        return new Accessor\Form\CheckboxAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find file element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  FileAccessor
+     */
+    public function findFile($id = null, array $relations = array())
+    {
+        return new Accessor\Form\FileAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find hidden element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  HiddenAccessor
+     */
+    public function findHidden($id = null, array $relations = array())
+    {
+        return new Accessor\Form\HiddenAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find image submit button element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  ImageSubmitButtonAccessor
+     */
+    public function findImageSubmitButton($id = null, array $relations = array())
+    {
+        return new Accessor\Form\ImageSubmitButtonAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find select option element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  OptionAccessor
+     */
+    public function findOption($id = null, array $relations = array())
+    {
+        return new Accessor\Form\OptionAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find password element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  PasswordAccessor
+     */
+    public function findPassword($id = null, array $relations = array())
+    {
+        return new Accessor\Form\PasswordAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find radio button element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  RadioAccessor
+     */
+    public function findRadio($id = null, array $relations = array())
+    {
+        return new Accessor\Form\RadioAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find reset button element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  ResetAccessor
+     */
+    public function findReset($id = null, array $relations = array())
+    {
+        return new Accessor\Form\ResetAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find select element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  SelectAccessor
+     */
+    public function findSelect($id = null, array $relations = array())
+    {
+        return new Accessor\Form\SelectAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find submit element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  SubmitAccessor
+     */
+    public function findSubmit($id = null, array $relations = array())
+    {
+        return new Accessor\Form\SubmitAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find textarea element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  TextareaAccessor
+     */
+    public function findTextarea($id = null, array $relations = array())
+    {
+        return new Accessor\Form\TextareaAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find textbox element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  TextboxAccessor
+     */
+    public function findTextbox($id = null, array $relations = array())
+    {
+        return new Accessor\Form\TextboxAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find table cell element.
+     *
+     * @param   string|array    $id         simple element identifier or array of (Table, rowText, colText)
+     * @param   array           $relations  tag relations (near, in, under)
+     *
+     * @return  CellAccessor
+     */
+    public function findCell($id = null, array $relations = array())
+    {
+        return new Accessor\Table\CellAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find table row element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  RowAccessor
+     */
+    public function findRow($id = null, array $relations = array())
+    {
+        return new Accessor\Table\RowAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find table header element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  TableHeaderAccessor
+     */
+    public function findTableHeader($id = null, array $relations = array())
+    {
+        return new Accessor\Table\TableHeaderAccessor($id, $relations, $this->con);
+    }
+
+    /**
+     * Find table element.
+     *
+     * @param   string  $id         element identifier
+     * @param   array   $relations  tag relations (near, in, under)
+     *
+     * @return  TableAccessor
+     */
+    public function findTable($id = null, array $relations = array())
+    {
+        return new Accessor\Table\TableAccessor($id, $relations, $this->con);
     }
 }

@@ -16,6 +16,8 @@ use Everzet\SahiDriver\Exception;
 
 /**
  * Sahi Connection Driver.
+ *
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class Connection
 {
@@ -80,6 +82,16 @@ class Connection
     }
 
     /**
+     * Return HTTP Browser instance.
+     *
+     * @return  Browser
+     */
+    public function getBrowser()
+    {
+        return $this->browser;
+    }
+
+    /**
      * Execute Sahi command & returns its response.
      *
      * @param   string  $command        Sahi command
@@ -130,7 +142,7 @@ class Connection
     {
         $key = '___lastValue___' . uniqid();
         $this->executeStep(
-            sprintf("_sahi.setServerVarPlain(%s, %s)", urlencode("'" . $key . "'"), urlencode($expression))
+            sprintf("_sahi.setServerVarPlain(%s, %s)", "'" . $key . "'", $expression)
         );
 
         $resp = $this->executeCommand('getVariable', array('key' => $key));
@@ -162,7 +174,7 @@ class Connection
     {
         $items = array();
         foreach ($query as $key => $val) {
-            $items[] = $key . '=' . $val;
+            $items[] = $key . '=' . urlencode($val);
         }
 
         return implode('&', $items);

@@ -14,6 +14,8 @@ use Everzet\SahiDriver\Connection;
 
 /**
  * Abstract Accessor.
+ *
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 abstract class AbstractAccessor
 {
@@ -25,24 +27,9 @@ abstract class AbstractAccessor
     protected   $con;
 
     /**
-     * DOM relations.
-     *
-     * @var     array
-     */
-    private     $relations = array();
-    /**
-     * Available element actions.
-     *
-     * @var     array
-     */
-    private     $availableActions = array(
-        'click', 'rightClick', 'doubleClick', 'check', 'uncheck', 'mouseOver', 'focus', 'removeFocus', 'blur'
-    );
-
-    /**
      * Initialize Accessor.
      *
-     * @param   Connection  $connection Sahi Connection
+     * @param   Connection  $con    Sahi Connection
      */
     public function __construct(Connection $con)
     {
@@ -50,63 +37,79 @@ abstract class AbstractAccessor
     }
 
     /**
-     * Add _in DOM relation.
+     * Set Sahi Connection.
      *
-     * @param   AbstractAccessor    $accessor   accessor for relation
+     * @param   Connection  $con    Sahi Connection
      */
-    public function in(AbstractAccessor $accessor)
+    public function setConnection(Connection $con)
     {
-        $this->relations[] = sprintf('_sahi._in(%s)', $accessor->getAccessor());
+        $this->con = $con;
     }
 
     /**
-     * Add _near DOM relation.
+     * Return Accessor active connection instance.
      *
-     * @param   AbstractAccessor    $accessor   accessor for relation
+     * @return  Connection
      */
-    public function near(AbstractAccessor $accessor)
+    public function getConnection()
     {
-        $this->relations[] = sprintf('_sahi._near(%s)', $accessor->getAccessor());
+        return $this->con;
     }
 
     /**
-     * Add _under DOM relation.
-     *
-     * @param   AbstractAccessor    $accessor   accessor for relation
+     * Perform click on element.
      */
-    public function under(AbstractAccessor $accessor)
+    public function click()
     {
-        $this->relations[] = sprintf('_sahi._under(%s)', $accessor->getAccessor());
+        $this->con->executeStep(sprintf('_sahi._click(%s)', $this->getAccessor()));
     }
 
     /**
-     * Return true if accessor has relations.
-     *
-     * @return  boolean
+     * Perform right-click on element.
      */
-    public function hasRelations()
+    public function rightClick()
     {
-        return 0 < count($this->relations);
+        $this->con->executeStep(sprintf('_sahi._rightClick(%s)', $this->getAccessor()));
     }
 
     /**
-     * Perform action on element.
-     *
-     * $browser->click()
-     * $browser->mouseOver()
-     *
-     * @param   string  $action     function name
-     * @param   string  $arguments  function arguments
+     * Perform double-click on element.
      */
-    public function __call($action, $arguments)
+    public function doubleClick()
     {
-        if (in_array($action, $this->availableActions)) {
-            $this->con->executeStep(sprintf('_sahi._%s(%s)', $action, $this->getAccessor()));
-        } else {
-            throw new \InvalidArgumentException(
-                sprintf('Unknown method called %s::%s', get_class($this), $action)
-            );
-        }
+        $this->con->executeStep(sprintf('_sahi._doubleClick(%s)', $this->getAccessor()));
+    }
+
+    /**
+     * Perform mouse-over on element.
+     */
+    public function mouseOver()
+    {
+        $this->con->executeStep(sprintf('_sahi._mouseOver(%s)', $this->getAccessor()));
+    }
+
+    /**
+     * Bring focus to element.
+     */
+    public function focus()
+    {
+        $this->con->executeStep(sprintf('_sahi._focus(%s)', $this->getAccessor()));
+    }
+
+    /**
+     * Remove focus from element.
+     */
+    public function removeFocus()
+    {
+        $this->con->executeStep(sprintf('_sahi._removeFocus(%s)', $this->getAccessor()));
+    }
+
+    /**
+     * Blur element.
+     */
+    public function blur()
+    {
+        $this->con->executeStep(sprintf('_sahi._blur(%s)', $this->getAccessor()));
     }
 
     /**
@@ -122,22 +125,60 @@ abstract class AbstractAccessor
     /**
      * Drag'n'Drop current element into X,Y.
      *
-     * @param   integer $x  X
-     * @param   integer $y  Y
+     * @param   integer $x          X
+     * @param   integer $y          Y
+     * @param   boolean $relative   relativity of position
      */
-    public function dragDropXY($x, $y)
+    public function dragDropXY($x, $y, $relative = null)
     {
-        $this->con->executeStep(sprintf('_sahi._dragDrop(%s, %d, %d)', $this->getAccessor(), $x, $y));
+        $arguments = array($x, $y);
+
+        if (null !== $relative) {
+            $arguments[] = (bool) $relative ? 'true' : 'false';
+        }
+
+        $this->con->executeStep(
+            sprintf('_sahi._dragDropXY(%s, %s)', $this->getAccessor(), implode(', ', $arguments))
+        );
     }
 
     /**
-     * Choose option in select box.
+     * Simulate keypress event.
      *
-     * @param   string  $val    option value
+     * @param   string  $charInfo   a char (eg. ‘b’) OR charCode (eg. 98) OR array(13,13) for pressing ENTER
+     * @param   string  $combo      CTRL|ALT|SHIFT|META
      */
-    public function choose($val)
+    public function keyPress($charInfo, $combo = null)
     {
-        $this->con->executeStep(sprintf('_sahi._setSelected(%s, \'%s\')', $this->getAccessor(), $val));
+        $this->con->executeStep(
+            sprintf('_sahi._keyPress(%s, %s)', $this->getAccessor(), $this->getKeyArgumentsString($charInfo, $combo))
+        );
+    }
+
+    /**
+     * Simulate keypress event.
+     *
+     * @param   string  $charInfo   a char (eg. ‘b’) OR charCode (eg. 98) OR array(13,13) for pressing ENTER
+     * @param   string  $combo      CTRL|ALT|SHIFT|META
+     */
+    public function keyDown($charInfo, $combo = null)
+    {
+        $this->con->executeStep(
+            sprintf('_sahi._keyDown(%s, %s)', $this->getAccessor(), $this->getKeyArgumentsString($charInfo, $combo))
+        );
+    }
+
+    /**
+     * Simulate keypress event.
+     *
+     * @param   string  $charInfo   a char (eg. ‘b’) OR charCode (eg. 98) OR array(13,13) for pressing ENTER
+     * @param   string  $combo      CTRL|ALT|SHIFT|META
+     */
+    public function keyUp($charInfo, $combo = null)
+    {
+        $this->con->executeStep(
+            sprintf('_sahi._keyUp(%s, %s)', $this->getAccessor(), $this->getKeyArgumentsString($charInfo, $combo))
+        );
     }
 
     /**
@@ -147,7 +188,9 @@ abstract class AbstractAccessor
      */
     public function setValue($val)
     {
-        $this->con->executeStep(sprintf('_sahi._setValue(%s, "%s")', $this->getAccessor(), $val));
+        $this->con->executeStep(
+            sprintf('_sahi._setValue(%s, "%s")', $this->getAccessor(), quoted_printable_encode($val))
+        );
     }
 
     /**
@@ -173,16 +216,6 @@ abstract class AbstractAccessor
     }
 
     /**
-     * Emulate setting filepath in a file input.
-     *
-     * @param   string  $val    file path
-     */
-    public function setFile($val)
-    {
-        $this->con->executeStep(sprintf('_sahi._setFile(%s, \'%s\')', $this->getAccessor(), $val));
-    }
-
-    /**
      * Return inner text of element.
      *
      * @return  string
@@ -193,23 +226,31 @@ abstract class AbstractAccessor
     }
 
     /**
-     * Return true if checkbox/radio checked.
-     *
-     * @return  boolean
+     * Highlight element.
      */
-    public function isChecked()
+    public function highlight()
     {
-        return "true" === $this->getAttr('checked');
+        $this->con->executeStep(sprintf('_sahi._highlight(%s)', $this->getAccessor()));
     }
 
     /**
-     * Return selected text from selectbox.
+     * Return true if the element is visible on the user interface.
      *
-     * @return  string
+     * @return  boolean
      */
-    public function getSelectedText()
+    public function isVisible()
     {
-        return $this->con->executeJavascript(sprintf('_sahi._getSelectedText(%s)', $this->getAccessor()));
+        return 'true' === $this->con->executeJavascript(sprintf('_sahi._isVisible(%s)', $this->getAccessor()));
+    }
+
+    /**
+     * Return true if the element is visible on the user interface.
+     *
+     * @return  boolean
+     */
+    public function isExists()
+    {
+        return 'true' === $this->con->executeJavascript(sprintf('_sahi._exists(%s)', $this->getAccessor()));
     }
 
     /**
@@ -230,12 +271,29 @@ abstract class AbstractAccessor
     }
 
     /**
-     * Return relations Sahi arguments.
+     * Return Key arguments string.
+     *
+     * @param   string  $charInfo   a char (eg. ‘b’) OR charCode (eg. 98) OR array(13,13) for pressing ENTER
+     * @param   string  $combo      CTRL|ALT|SHIFT|META
      *
      * @return  string
      */
-    protected function getRelationArgumentsString()
+    private function getKeyArgumentsString($charInfo, $combo)
     {
-        return implode(', ', $this->relations);
+        $arguments = array();
+
+        if (is_array($charInfo)) {
+            $arguments[] = '[' . implode(',', $charInfo) . ']';
+        } elseif (is_string($charInfo)) {
+            $arguments[] = '"' . $charInfo . '"';
+        } else {
+            $arguments[] = $charInfo;
+        }
+
+        if (null !== $combo) {
+            $arguments[] = '"' . $combo . '"';
+        }
+
+        return implode(', ', $arguments);
     }
 }

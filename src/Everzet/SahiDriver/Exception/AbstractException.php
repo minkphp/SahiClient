@@ -11,10 +11,10 @@ namespace Everzet\SahiDriver\Exception;
  */
 
 /**
- * Sahi Connection Exception.
+ * Driver Exception.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ConnectionException extends AbstractException
+abstract class AbstractException extends \Exception
 {
 }

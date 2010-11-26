@@ -1,6 +1,9 @@
 <?php
 
-namespace Everzet\SahiDriver\Exception;
+namespace Everzet\SahiDriver\Accessor\Form;
+
+use Everzet\SahiDriver\Accessor\AbstractDomAccessor;
+use Everzet\SahiDriver\Exception;
 
 /*
  * This file is part of the SahiDriver.
@@ -11,10 +14,17 @@ namespace Everzet\SahiDriver\Exception;
  */
 
 /**
- * Sahi Connection Exception.
+ * Reset Element Accessor.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ConnectionException extends AbstractException
+class ResetAccessor extends AbstractDomAccessor
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return 'reset';
+    }
 }

@@ -2,12 +2,6 @@
 
 namespace Test\SahiDriver\Accessor;
 
-use Buzz\Browser;
-use Buzz\Client\Mock;
-require_once __DIR__ . '/../AbstractDriverTest.php';
-require_once __DIR__ . '/../ExtendedJournal.php';
-use Test\SahiDriver\AbstractDriverTest;
-use Test\SahiDriver\ExtendedJournal;
 require_once 'AbstractAccessorTest.php';
 
 use Everzet\SahiDriver\Accessor;
@@ -16,12 +10,11 @@ class SharedActionsTest extends AbstractAccessorTest
 {
     public function getAccessors()
     {
-        $browser    = new Browser(new Mock\LIFO(), new ExtendedJournal());
-        $connection = $this->createConnection(uniqid(), $browser, true);
+        $connection = $this->getConnectionMock();
 
         return array(
             array(
-                $first = new Accessor\Accessor('document.formName.elementName', $connection),
+                $first = new Accessor\DomAccessor('document.formName.elementName', $connection),
                 '_sahi._accessor("document.formName.elementName")'
             ),
             array(
@@ -57,7 +50,7 @@ class SharedActionsTest extends AbstractAccessorTest
      */
     public function testDragDropActions(Accessor\AbstractAccessor $accessor, $selector)
     {
-        $aim = new Accessor\Accessor('document.formName', $accessor->getConnection());
+        $aim = new Accessor\DomAccessor('document.formName', $accessor->getConnection());
 
         $this->assertActionStep(
             '_sahi._dragDrop(' . $selector . ', _sahi._accessor("document.formName"))',
@@ -182,5 +175,27 @@ class SharedActionsTest extends AbstractAccessorTest
     public function testHighlight(Accessor\AbstractAccessor $accessor, $selector)
     {
         $this->assertActionStep('_sahi._highlight(' . $selector . ')', array($accessor, 'highlight'));
+    }
+
+    /**
+     * @dataProvider    getAccessors
+     */
+    public function testIsVisible(Accessor\AbstractAccessor $accessor, $selector)
+    {
+        $this->assertActionJavascript(
+            '_sahi._isVisible(' . $selector . ')', 'true',
+            array($accessor, 'isVisible')
+        );
+    }
+
+    /**
+     * @dataProvider    getAccessors
+     */
+    public function testExists(Accessor\AbstractAccessor $accessor, $selector)
+    {
+        $this->assertActionJavascript(
+            '_sahi._exists(' . $selector . ')', 'true',
+            array($accessor, 'isExists')
+        );
     }
 }
