@@ -3,20 +3,12 @@
 namespace Test\SahiDriver;
 
 use Buzz\Browser;
-use Buzz\Client\Mock;
 use Buzz\Message;
-
+use Buzz\Client\Mock;
 use Everzet\SahiDriver\Connection;
 
 abstract class AbstractDriverTest extends \PHPUnit_Framework_TestCase
 {
-    protected $browser;
-
-    public function setUp()
-    {
-        $this->browser = new Browser(new Mock\LIFO());
-    }
-
     /**
      * Create new Response.
      *
@@ -45,17 +37,17 @@ abstract class AbstractDriverTest extends \PHPUnit_Framework_TestCase
      *
      * @return  Driver
      */
-    protected function createConnection($sid, $correct = false)
+    protected function createConnection($sid, Browser $browser, $correct = false)
     {
         if ($correct) {
-            $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK', 'true'));
-            $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK'));
+            $browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK', 'true'));
+            $browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK'));
         }
 
-        $connection = new Connection($sid, 'localhost', 9999, $this->browser);
+        $connection = new Connection($sid, 'localhost', 9999, $browser);
 
         if ($correct) {
-            $this->browser->getJournal()->clear();
+            $browser->getJournal()->clear();
         }
 
         return $connection;

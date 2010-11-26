@@ -2,62 +2,21 @@
 
 namespace Test\SahiDriver;
 
+use Buzz;
+use Buzz\Client\Mock;
 use Everzet\SahiDriver\Browser;
+require_once 'AbstractDriverTest.php';
+require_once 'ExtendedJournal.php';
 
 class BrowserTest extends AbstractDriverTest
 {
-    protected $api;
+    private $browser;
+    private $api;
 
     public function setUp()
     {
-        parent::setUp();
-
-        $this->api = $this->createBrowser($sid = uniqid());
-    }
-
-    public function testSelectCorrectElementAccessor()
-    {
-        $link = $this->api->selectLink(0);
-        $this->assertEquals('_sahi._link(0)', $link->getAccessor());
-
-        $link = $this->api->selectLink('some_id');
-        $this->assertEquals('_sahi._link(\'some_id\')', $link->getAccessor());
-
-        $link = $this->api->selectImage(12);
-        $this->assertEquals('_sahi._image(12)', $link->getAccessor());
-
-        $link = $this->api->selectTextbox(13.5);
-        $this->assertEquals('_sahi._textbox(13.5)', $link->getAccessor());
-
-        $link = $this->api->selectSubmit('/regex/');
-        $this->assertEquals('_sahi._submit(\'/regex/\')', $link->getAccessor());
-
-        $link = $this->api->selectListItem('/regex/');
-        $this->assertEquals('_sahi._listItem(\'/regex/\')', $link->getAccessor());
-    }
-
-    /**
-     * @expectedException   Everzet\SahiDriver\Exception\AccessorException
-     */
-    public function testSelectIncorrectElementAccessor()
-    {
-        $this->api->selectIncorrect();
-    }
-
-    public function testSelectRelationalElementAccessor()
-    {
-        $label = $this->api->selectLabel('Agree:');
-        $check = $this->api->selectCheckbox(null, array('near' => $label));
-
-        $this->assertEquals('_sahi._checkbox(0, _sahi._near(_sahi._label(\'Agree:\')))', $check->getAccessor());
-
-        $form  = $this->api->selectHeading3('Create new user');
-        $check = $this->api->selectCheckbox(null, array('near' => $label, 'under' => $form));
-
-        $this->assertEquals(
-            '_sahi._checkbox(0, _sahi._near(_sahi._label(\'Agree:\')), _sahi._under(_sahi._heading3(\'Create new user\')))',
-            $check->getAccessor()
-        );
+        $this->browser  = new Buzz\Browser(new Mock\LIFO(), new ExtendedJournal());
+        $this->api      = $this->createBrowser($sid = uniqid(), $this->browser);
     }
 
     public function testSetSpeed()
@@ -72,8 +31,8 @@ class BrowserTest extends AbstractDriverTest
         $this->assertContains('speed=222', $request->getContent());
     }
 
-    protected function createBrowser($sid)
+    protected function createBrowser($sid, Buzz\Browser $browser)
     {
-        return new Browser($this->createConnection($sid, true));
+        return new Browser($this->createConnection($sid, $browser, true));
     }
 }
