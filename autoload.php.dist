@@ -1,21 +1,21 @@
 <?php
 
 /*
- * This file is part of the SahiDriver.
+ * This file is part of the Behat\SahiClient.
  * (c) 2010 Konstantin Kudryashov <ever.zet@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-if (!class_exists('Everzet\\SahiDriver\\UniversalClassLoader')) {
-    require_once __DIR__.'/src/Everzet/SahiDriver/UniversalClassLoader.php';
+if (!class_exists('Behat\SahiClient\UniversalClassLoader')) {
+    require_once __DIR__.'/src/Behat/SahiClient/UniversalClassLoader.php';
 }
-use Everzet\SahiDriver\UniversalClassLoader;
+use Behat\SahiClient\UniversalClassLoader;
 
 $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
-  'Everzet\SahiDriver'  => __DIR__ . '/src',
+  'Behat\SahiClient'    => __DIR__ . '/src',
   'Buzz'                => __DIR__ . '/vendor/Buzz/lib'
 ));
 $loader->register();
