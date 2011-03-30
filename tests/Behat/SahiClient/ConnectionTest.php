@@ -17,26 +17,6 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->browser = new Browser(new Mock\LIFO(), new ExtendedJournal());
     }
 
-    /**
-     * @expectedException   Behat\SahiClient\Exception\ConnectionException
-     */
-    public function testProxyNotStartedConstruct()
-    {
-        $this->browser->getClient()->sendToQueue($this->createResponse('1.0 404 Not Found'));
-        $this->createConnection(uniqid(), $this->browser);
-    }
-
-    /**
-     * @expectedException   Behat\SahiClient\Exception\ConnectionException
-     */
-    public function testProxyNotReadyConstruct()
-    {
-        $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK', 'false'));
-        $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK'));
-
-        $this->createConnection(uniqid(), $this->browser);
-    }
-
     public function testExecuteCommand()
     {
         $con = $this->createConnection($sid = uniqid(), $this->browser, true);

@@ -67,18 +67,46 @@ class Connection
         } else {
             $this->browser = $browser;
         }
+    }
 
-        if (200 !== $this->post(sprintf('http://%s:%d/_s_/spr/blank.htm', $host, $port))->getStatusCode()) {
-            throw new Exception\ConnectionException(
-                sprintf('Sahi proxy is not available at %s:%d. Please start the Sahi proxy.', $host, $port)
-            );
-        }
+    /**
+     * Starts browser.
+     *
+     * @param   string  $browserName    (firefox, ie, safari, chrome, opera)
+     */
+    public function start($browserName)
+    {
+        $this->executeCommand('launchPreconfiguredBrowser', array('browserType' => $browserName));
+    }
 
-        if ('true' !== $this->executeCommand('isReady')) {
-            throw new Exception\ConnectionException(
-                sprintf('Sahi session is not ready. Please open "http://sahi.example.com/_s_/dyn/Driver_start?sahisid=%s&startUrl=%s" link in configured browser.', $sid, urlencode('http://sahi.example.com/_s_/dyn/Driver_initialized'))
-            );
-        }
+    /**
+     * Stop browser.
+     */
+    public function stop()
+    {
+        $this->executeCommand('kill');
+    }
+
+    /**
+     * Checks whether Sahi proxy were started.
+     *
+     * @return  Boolean
+     */
+    public function isProxyStarted()
+    {
+        return 200 === $this->post(
+            sprintf('http://%s:%d/_s_/spr/blank.htm', $this->host, $this->port)
+        )->getStatusCode();
+    }
+
+    /**
+     * Checks whether connection is ready.
+     *
+     * @return  Boolean
+     */
+    public function isReady()
+    {
+        return 'true' === $this->executeCommand('isReady');
     }
 
     /**
@@ -126,6 +154,7 @@ class Connection
             if ('true' === $check) {
                 return;
             } elseif (0 === mb_strpos($check, 'error:')) {
+                $this->stop();
                 throw new Exception\ConnectionException($check);
             }
         }
