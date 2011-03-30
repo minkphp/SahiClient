@@ -57,6 +57,71 @@ abstract class AbstractAccessor
     }
 
     /**
+     * Perform check on radio
+     */
+    public function check()
+    {
+        $this->con->executeStep(sprintf('_sahi._check(%s)', $this->getAccessor()));
+    }
+
+    /**
+     * Return true if checkbox/radio checked.
+     *
+     * @return  boolean
+     */
+    public function isChecked()
+    {
+        return "true" === $this->getAttr('checked');
+    }
+
+    /**
+     * Perform uncheck on radio
+     */
+    public function uncheck()
+    {
+        $this->con->executeStep(sprintf('_sahi._uncheck(%s)', $this->getAccessor()));
+    }
+
+    /**
+     * Return selected text from selectbox.
+     *
+     * @return  string
+     */
+    public function getSelectedText()
+    {
+        return $this->con->executeJavascript(sprintf('_sahi._getSelectedText(%s)', $this->getAccessor()));
+    }
+
+    /**
+     * Choose option in select box.
+     *
+     * @param   string  $val    option value
+     */
+    public function choose($val, $isMultiple = null)
+    {
+        $arguments = array('"' . quoted_printable_encode($val) . '"');
+        if (null !== $isMultiple) {
+            $arguments[] = (bool) $isMultiple ? 'true' : 'false';
+        }
+
+        $this->con->executeStep(
+            sprintf('_sahi._setSelected(%s, %s)', $this->getAccessor(), implode(', ', $arguments))
+        );
+    }
+
+    /**
+     * Emulate setting filepath in a file input.
+     *
+     * @param   string  $path   file path
+     */
+    public function setFile($path)
+    {
+        $this->con->executeStep(
+            sprintf('_sahi._setFile(%s, "%s")', $this->getAccessor(), quoted_printable_encode($path))
+        );
+    }
+
+    /**
      * Perform click on element.
      */
     public function click()

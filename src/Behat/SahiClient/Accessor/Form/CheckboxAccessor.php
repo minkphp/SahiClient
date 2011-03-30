@@ -20,14 +20,6 @@ use Behat\SahiClient\Exception;
 class CheckboxAccessor extends RadioAccessor
 {
     /**
-     * Perform uncheck on radio
-     */
-    public function uncheck()
-    {
-        $this->con->executeStep(sprintf('_sahi._uncheck(%s)', $this->getAccessor()));
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getType()

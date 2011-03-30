@@ -21,24 +21,6 @@ use Behat\SahiClient\Exception;
 class RadioAccessor extends AbstractDomAccessor
 {
     /**
-     * Perform check on radio
-     */
-    public function check()
-    {
-        $this->con->executeStep(sprintf('_sahi._check(%s)', $this->getAccessor()));
-    }
-
-    /**
-     * Return true if checkbox/radio checked.
-     *
-     * @return  boolean
-     */
-    public function isChecked()
-    {
-        return "true" === $this->getAttr('checked');
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getType()

@@ -21,18 +21,6 @@ use Behat\SahiClient\Exception;
 class FileAccessor extends AbstractDomAccessor
 {
     /**
-     * Emulate setting filepath in a file input.
-     *
-     * @param   string  $path   file path
-     */
-    public function setFile($path)
-    {
-        $this->con->executeStep(
-            sprintf('_sahi._setFile(%s, "%s")', $this->getAccessor(), quoted_printable_encode($path))
-        );
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getType()
