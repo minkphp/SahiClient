@@ -3,6 +3,7 @@
 namespace Behat\SahiClient;
 
 use Behat\SahiClient\Accessor;
+use Behat\SahiClient\Exception;
 
 /*
  * This file is part of the Behat\SahiClient.
@@ -13,11 +14,11 @@ use Behat\SahiClient\Accessor;
  */
 
 /**
- * Browser Accessor API methods.
+ * Sahi client.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class Browser
+class Client
 {
     /**
      * Sahi Driver instance.
@@ -25,15 +26,67 @@ class Browser
      * @var     Driver
      */
     protected $con;
+    private $started = false;
 
     /**
      * Initialize Accessor.
      *
-     * @param   Connection  $connection Sahi Connection
+     * @param   Connection  $con    Sahi Connection
      */
-    public function __construct(Connection $con)
+    public function __construct(Connection $con = null)
     {
+        if (null === $con) {
+            $con = new Connection(uniqid());
+        }
+
         $this->con = $con;
+    }
+
+    /**
+     * Close sahi connection.
+     */
+    public function __destruct()
+    {
+        if ($this->started) {
+            $this->stop();
+        }
+    }
+
+    /**
+     * Start Sahi browser session.
+     *
+     * @param   string  $browserName    (firefox, ie, safari, chrome, opera)
+     */
+    public function start($browserName)
+    {
+        if ($this->started) {
+            throw new \InvalidArgumentException('Another browser already running - stop it first');
+        }
+
+        if (!$this->con->isProxyStarted()) {
+            throw new Exception\ConnectionException('Sahi proxy seems not running');
+        }
+
+        $this->con->start($browserName);
+
+        $limit = 30;
+        while (!$this->con->isReady()) {
+            sleep(1);
+            if (--$limit <= 0) {
+                throw new Exception\ConnectionException('Browser connection waiting limit expired');
+            }
+        }
+
+        $this->started = true;
+    }
+
+    /**
+     * Stop Sahi browser session.
+     */
+    public function stop()
+    {
+        $this->con->stop();
+        $this->started = false;
     }
 
     /**
@@ -47,7 +100,7 @@ class Browser
     }
 
     /**
-     * Return Accessor active connection instance.
+     * Return Accessor active con instance.
      *
      * @return  Connection
      */

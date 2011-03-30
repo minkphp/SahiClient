@@ -2,17 +2,17 @@
 
 namespace Test\Behat\SahiClient;
 
-use Behat\SahiClient\Browser;
+use Behat\SahiClient\Client;
 require_once 'AbstractConnectionTest.php';
 
-class BrowserTest extends AbstractConnectionTest
+class ClientTest extends AbstractConnectionTest
 {
     private $api;
 
     public function setUp()
     {
         $connection = $this->getConnectionMock();
-        $this->api  = new Browser($connection);
+        $this->api  = new Client($connection);
     }
 
     public function testNavigateTo()
