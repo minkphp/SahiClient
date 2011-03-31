@@ -50,7 +50,7 @@ class ByXPathAccessor extends AbstractRelationalAccessor
     public function getAccessor()
     {
         $arguments   = array();
-        $arguments[] = '"' . quoted_printable_encode($this->xpath) . '"';
+        $arguments[] = '"' . $this->xpath . '"';
         if ($this->hasRelations()) {
             $arguments[] = $this->getRelationArgumentsString();
         }
