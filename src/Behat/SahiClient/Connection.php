@@ -154,7 +154,6 @@ class Connection
             if ('true' === $check) {
                 return;
             } elseif (0 === mb_strpos($check, 'error:')) {
-                $this->stop();
                 throw new Exception\ConnectionException($check);
             }
         }
