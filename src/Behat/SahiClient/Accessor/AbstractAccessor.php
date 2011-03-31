@@ -71,7 +71,7 @@ abstract class AbstractAccessor
      */
     public function isChecked()
     {
-        return "true" === $this->getAttr('checked');
+        return "true" === $this->con->executeJavascript(sprintf('%s.checked', $this->getAccessor()));
     }
 
     /**
@@ -297,7 +297,7 @@ abstract class AbstractAccessor
      */
     public function getAttr($attr)
     {
-        return $this->con->executeJavascript(sprintf('%s.%s', $this->getAccessor(), $attr));
+        return $this->con->executeJavascript(sprintf('%s.getAttribute("%s")', $this->getAccessor(), $attr));
     }
 
     /**
