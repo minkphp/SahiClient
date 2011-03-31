@@ -208,6 +208,16 @@ abstract class AbstractAccessor
     }
 
     /**
+     * Simulate event.
+     *
+     * @param   string  $event   notify event on object
+     */
+    public function simulateEvent($event)
+    {
+        $this->con->executeStep(sprintf('_sahi._simulateEvent(%s, %s)', $this->getAccessor(), $event);
+    }
+
+    /**
      * Simulate keypress event.
      *
      * @param   string  $charInfo   a char (eg. ‘b’) OR charCode (eg. 98) OR array(13,13) for pressing ENTER
@@ -266,6 +276,16 @@ abstract class AbstractAccessor
     public function getValue()
     {
         return $this->con->executeJavascript(sprintf('%s.value', $this->getAccessor()));
+    }
+
+    /**
+     * Return node name.
+     *
+     * @return  string
+     */
+    public function getName()
+    {
+        return $this->con->executeJavascript(sprintf('%s.nodeName', $this->getAccessor()));
     }
 
     /**
