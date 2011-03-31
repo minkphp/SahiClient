@@ -214,7 +214,7 @@ abstract class AbstractAccessor
      */
     public function simulateEvent($event)
     {
-        $this->con->executeStep(sprintf('_sahi._simulateEvent(%s, %s)', $this->getAccessor(), $event);
+        $this->con->executeStep(sprintf('_sahi._simulateEvent(%s, %s)', $this->getAccessor(), $event));
     }
 
     /**
