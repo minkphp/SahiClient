@@ -152,7 +152,7 @@ class SharedActionsTest extends AbstractAccessorTest
     public function testGetAttr(Accessor\AbstractAccessor $accessor, $selector)
     {
         $this->assertActionJavascript(
-            $selector . '.checked', 'true',
+            $selector . '.getAttribute("checked")', 'true',
             array($accessor, 'getAttr'),
             array('checked')
         );
