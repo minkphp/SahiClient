@@ -137,6 +137,18 @@ class Client
     }
 
     /**
+     * Waits for timeInMilliseconds ms or till the condition is satisfied on the browser,
+     * which ever is sooner.
+     *
+     * @param   integer $time       time in milliseconds
+     * @param   string  $condition  JS condition
+     */
+    public function wait($time, $condition)
+    {
+        $this->con->executeStep(sprintf('_sahi._wait(%d, %s)', $time, $condition));
+    }
+
+    /**
      * Find element on page by specified class & tag.
      *
      * @param   string  $class      tag class
