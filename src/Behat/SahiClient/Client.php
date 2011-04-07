@@ -117,7 +117,7 @@ class Client
      */
     public function navigateTo($url, $reload = null)
     {
-        $arguments = array('"' . quoted_printable_encode($url) . '"');
+        $arguments = array('"' . str_replace('"', '\\"', $url) . '"');
 
         if (null !== $reload) {
             $arguments[] = (bool) $reload ? 'true' : 'false';
