@@ -9,33 +9,39 @@ Usage
 1. First, install & configure Sahi as [described here](http://sahi.co.in/w/using-sahi)
 2. After that, you could write/run initial script like this:
 
-        <?php
-        
-        require_once '/sahi/driver/path/autoload.php.dist';
-        
-        use Behat\SahiClient\Client;
-        
-        $client = new Client();
-        $client->start('firefox');
-        ....
+``` php
+<?php
+
+require_once '/sahi/driver/path/autoload.php.dist';
+
+use Behat\SahiClient\Client;
+
+$client = new Client();
+$client->start('firefox');
+....
+```
 
 3. And now, you can work with `$browser` object as with Sahi remote controll:
 
-        ...
+``` php
+...
 
-        $client->navigateTo('http://some_page.loc');
-        
-        $link = $client->findLink('Search!');
-        $previousLinkText = $link->getText();
-        $link->click();
-        
-        $h1Text = $client->findHeader(2)->getText();
-        ....
+$client->navigateTo('http://some_page.loc');
+
+$link = $client->findLink('Search!');
+$previousLinkText = $link->getText();
+$link->click();
+
+$h1Text = $client->findHeader(2)->getText();
+....
+```
 
 4. After tests, turn browser off:
 
-        ...
-        $client->stop();
+``` php
+...
+$client->stop();
+```
 
 Copyright
 ---------
