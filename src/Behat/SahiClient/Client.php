@@ -26,7 +26,8 @@ class Client
      * @var     Driver
      */
     protected $con;
-    private $started = false;
+    private $started          = false;
+    private $browserAutoruned = false;
 
     /**
      * Initialize Accessor.
@@ -57,24 +58,36 @@ class Client
      *
      * @param   string  $browserName    (firefox, ie, safari, chrome, opera)
      */
-    public function start($browserName)
+    public function start($browserName = null)
     {
         if ($this->started) {
-            throw new \InvalidArgumentException('Another browser already running - stop it first');
+            throw new Expection\ConnectionException('Client is already started');
         }
 
         if (!$this->con->isProxyStarted()) {
             throw new Exception\ConnectionException('Sahi proxy seems not running');
         }
 
-        $this->con->start($browserName);
-
-        $limit = 30;
-        while (!$this->con->isReady()) {
-            sleep(1);
-            if (--$limit <= 0) {
-                throw new Exception\ConnectionException('Browser connection waiting limit expired');
+        if (!$this->con->isReady()) {
+            if (null === $browserName) {
+                throw new \InvalidArgumentException('Specify browser to run in');
             }
+
+            $this->con->start($browserName);
+
+            $limit = 30;
+            while (!$this->con->isReady()) {
+                sleep(1);
+                if (--$limit <= 0) {
+                    throw new Exception\ConnectionException(
+                        'Browser connection waiting limit expired'
+                    );
+                }
+            }
+
+            $this->browserAutoruned = true;
+        } else {
+            $this->browserAutoruned = false;
         }
 
         $this->started = true;
@@ -85,7 +98,14 @@ class Client
      */
     public function stop()
     {
-        $this->con->stop();
+        if (!$this->started) {
+            throw new Exception\ConnectionException('Client is not started');
+        }
+
+        if ($this->browserAutoruned) {
+            $this->con->stop();
+        }
+
         $this->started = false;
     }
 
