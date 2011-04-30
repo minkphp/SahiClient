@@ -75,7 +75,7 @@ class Client
 
             $this->con->start($browserName);
 
-            $limit = 30;
+            $limit = 10;
             while (!$this->con->isReady()) {
                 sleep(1);
                 if (--$limit <= 0) {
