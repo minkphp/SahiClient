@@ -152,14 +152,18 @@ class Connection
     {
         $this->executeCommand('setStep', array('step' => $step));
 
-        for ($i = 0; $i < 500; $i++) {
-            usleep(100000);
+        $limit = 1000;
+        $check = 'false';
+        while ('true' !== $check) {
+            usleep(10000);
+            if (--$limit <= 0) {
+                throw new Exception\ConnectionException(
+                    'Command execution time limit reached: `' . $step . '`'
+                );
+            }
 
             $check = $this->executeCommand('doneStep');
-
-            if ('true' === $check) {
-                return;
-            } elseif (0 === mb_strpos($check, 'error:')) {
+            if (0 === mb_strpos($check, 'error:')) {
                 throw new Exception\ConnectionException($check);
             }
         }
