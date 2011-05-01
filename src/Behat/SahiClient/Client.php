@@ -80,7 +80,7 @@ class Client
                 usleep(10000);
                 if (--$limit <= 0) {
                     throw new Exception\ConnectionException(
-                        'Browser connection waiting limit expired'
+                        'Connection time limit reached'
                     );
                 }
             }
