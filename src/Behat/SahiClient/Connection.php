@@ -129,10 +129,16 @@ class Connection
      */
     public function executeCommand($command, array $parameters = array())
     {
-        return $this->post(
+        $content = $this->post(
             sprintf('http://%s:%d/_s_/dyn/Driver_%s', $this->host, $this->port, $command),
             array_merge($parameters, array('sahisid' => $this->sid))
         )->getContent();
+
+        if (false !== strpos($content, 'SAHI_ERROR')) {
+            throw new Exception\ConnectionException('Sahi proxy error');
+        }
+
+        return $content;
     }
 
     /**
