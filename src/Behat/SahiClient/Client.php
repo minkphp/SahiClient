@@ -75,9 +75,9 @@ class Client
 
             $this->con->start($browserName);
 
-            $limit = 10;
+            $limit = 1500;
             while (!$this->con->isReady()) {
-                sleep(1);
+                usleep(10000);
                 if (--$limit <= 0) {
                     throw new Exception\ConnectionException(
                         'Browser connection waiting limit expired'
