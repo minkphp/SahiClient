@@ -55,8 +55,12 @@ class Connection
      * @param   integer     $port       Sahi proxy port
      * @param   BuzzBrowser $browser    HTTP browser instance
      */
-    public function __construct($sid, $host = 'localhost', $port = 9999, Buzz\Browser $browser = null)
+    public function __construct($sid = null, $host = 'localhost', $port = 9999, Buzz\Browser $browser = null)
     {
+        if (null === $sid) {
+            $sid = uniqid();
+        }
+
         $this->sid  = $sid;
         $this->host = $host;
         $this->port = $port;
