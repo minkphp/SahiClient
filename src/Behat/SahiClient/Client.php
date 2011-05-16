@@ -61,7 +61,7 @@ class Client
     public function start($browserName = null)
     {
         if ($this->started) {
-            throw new Expection\ConnectionException('Client is already started');
+            throw new Exception\ConnectionException('Client is already started');
         }
 
         if (!$this->con->isProxyStarted()) {
