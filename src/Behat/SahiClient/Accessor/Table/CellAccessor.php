@@ -65,8 +65,8 @@ class CellAccessor extends AbstractDomAccessor
         if (null !== $this->table) {
             $arguments   = array();
             $arguments[] = $this->table->getAccessor();
-            $arguments[] = '"' . quoted_printable_encode($this->rowText) . '"';
-            $arguments[] = '"' . quoted_printable_encode($this->colText) . '"';
+            $arguments[] = '"' . str_replace('"', '\"', $this->rowText) . '"';
+            $arguments[] = '"' . str_replace('"', '\"', $this->colText) . '"';
 
             if ($this->hasRelations()) {
                 $arguments[] = $this->getRelationArgumentsString();

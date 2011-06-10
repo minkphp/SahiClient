@@ -45,6 +45,6 @@ class DomAccessor extends AbstractAccessor
      */
     public function getAccessor()
     {
-        return sprintf('_sahi._accessor("%s")', quoted_printable_encode($this->id));
+        return sprintf('_sahi._accessor("%s")', str_replace('"', '\"', $this->id));
     }
 }

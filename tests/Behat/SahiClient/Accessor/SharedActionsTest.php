@@ -137,7 +137,7 @@ class SharedActionsTest extends AbstractAccessorTest
         $this->assertActionStep(
             '_sahi._setValue(' . $selector . ', "Some text \"ecraned\"")',
             array($accessor, 'setValue'),
-            array('Some text \"ecraned\"')
+            array("Some text \"ecraned\"")
         );
 
         $this->assertActionJavascript(

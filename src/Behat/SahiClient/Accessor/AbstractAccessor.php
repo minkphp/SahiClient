@@ -99,7 +99,7 @@ abstract class AbstractAccessor
      */
     public function choose($val, $isMultiple = null)
     {
-        $arguments = array('"' . quoted_printable_encode($val) . '"');
+        $arguments = array('"' . str_replace('"', '\"', $val) . '"');
         if (null !== $isMultiple) {
             $arguments[] = (bool) $isMultiple ? 'true' : 'false';
         }
@@ -117,7 +117,7 @@ abstract class AbstractAccessor
     public function setFile($path)
     {
         $this->con->executeStep(
-            sprintf('_sahi._setFile(%s, "%s")', $this->getAccessor(), quoted_printable_encode($path))
+            sprintf('_sahi._setFile(%s, "%s")', $this->getAccessor(), str_replace('"', '\"', $path))
         );
     }
 
@@ -264,7 +264,7 @@ abstract class AbstractAccessor
     public function setValue($val)
     {
         $this->con->executeStep(
-            sprintf('_sahi._setValue(%s, "%s")', $this->getAccessor(), quoted_printable_encode($val))
+            sprintf('_sahi._setValue(%s, "%s")', $this->getAccessor(), str_replace('"', '\"', $val))
         );
     }
 
