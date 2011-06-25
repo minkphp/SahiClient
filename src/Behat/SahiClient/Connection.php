@@ -133,8 +133,6 @@ class Connection
      */
     public function executeCommand($command, array $parameters = array())
     {
-        var_dump(sprintf('http://%s:%d/_s_/dyn/Driver_%s', $this->host, $this->port, $command));
-
         $content = $this->post(
             sprintf('http://%s:%d/_s_/dyn/Driver_%s', $this->host, $this->port, $command),
             array_merge($parameters, array('sahisid' => $this->sid))
