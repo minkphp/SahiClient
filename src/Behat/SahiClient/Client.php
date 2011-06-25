@@ -75,9 +75,9 @@ class Client
 
             $this->con->start($browserName);
 
-            $limit = 1500;
+            $limit = 150;
             while (!$this->con->isReady()) {
-                usleep(10000);
+                usleep(100000);
                 if (--$limit <= 0) {
                     throw new Exception\ConnectionException(
                         'Connection time limit reached'
