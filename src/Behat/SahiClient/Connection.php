@@ -28,6 +28,12 @@ class Connection
      */
     private     $sid;
     /**
+     * Is custom SID provided to connection
+     *
+     * @var     Boolean
+     */
+    private     $customSidProvided = false;
+    /**
      * Sahi proxy hostname
      *
      * @var     string
@@ -57,8 +63,8 @@ class Connection
      */
     public function __construct($sid = null, $host = 'localhost', $port = 9999, Buzz\Browser $browser = null)
     {
-        if (null === $sid) {
-            $sid = uniqid();
+        if (null !== $sid) {
+            $this->customSidProvided = true;
         }
 
         $this->sid  = $sid;
@@ -74,13 +80,36 @@ class Connection
     }
 
     /**
+     * Checks that connection used custom SID.
+     *
+     * @return  Boolean
+     */
+    public function isCustomSidProvided()
+    {
+        return $this->customSidProvided;
+    }
+
+    /**
+     * Returns current connection SID.
+     *
+     * @return  string
+     */
+    public function getSid()
+    {
+        return $this->sid;
+    }
+
+    /**
      * Starts browser.
      *
      * @param   string  $browserName    (firefox, ie, safari, chrome, opera)
      */
     public function start($browserName)
     {
-        $this->executeCommand('launchPreconfiguredBrowser', array('browserType' => $browserName));
+        if (!$this->customSidProvided) {
+            $this->sid = uniqid();
+            $this->executeCommand('launchPreconfiguredBrowser', array('browserType' => $browserName));
+        }
     }
 
     /**
@@ -88,7 +117,14 @@ class Connection
      */
     public function stop()
     {
-        $this->executeCommand('kill');
+        if (!$this->customSidProvided) {
+            $this->executeCommand('kill');
+
+            // sometimes, firefox is not fast enought at closing
+            // and next instance can't be created since previous
+            // still running. So - wait 1 second.
+            sleep(1);
+        }
     }
 
     /**
