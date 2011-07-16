@@ -311,6 +311,16 @@ abstract class AbstractAccessor
     }
 
     /**
+     * Return inner text of element.
+     *
+     * @return  string
+     */
+    public function getHTML()
+    {
+        return $this->con->executeJavascript(sprintf('%s.innerHTML', $this->getAccessor()));
+    }
+
+    /**
      * Highlight element.
      */
     public function highlight()
