@@ -210,13 +210,13 @@ class Connection
     }
 
     /**
-     * Execute JS expression on the browser and get it value.
+     * Evaluates JS expression on the browser and returns it's value.
      *
      * @param   string  $expression JS expression
      *
      * @return  string|null
      */
-    public function executeJavascript($expression)
+    public function evaluateJavascript($expression)
     {
         $key = '___lastValue___' . uniqid();
         $this->executeStep(
@@ -226,6 +226,16 @@ class Connection
         $resp = $this->executeCommand('getVariable', array('key' => $key));
 
         return 'null' === $resp ? null : $resp;
+    }
+
+    /**
+     * Execute JS expression on the browser.
+     *
+     * @param   string  $expression JS expression
+     */
+    public function executeJavascript($expression)
+    {
+        $this->executeStep(sprintf("_sahi._call(%s)", $expression));
     }
 
     /**

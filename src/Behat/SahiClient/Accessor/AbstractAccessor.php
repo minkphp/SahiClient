@@ -71,7 +71,7 @@ abstract class AbstractAccessor
      */
     public function isChecked()
     {
-        return "true" === $this->con->executeJavascript(sprintf('%s.checked', $this->getAccessor()));
+        return "true" === $this->con->evaluateJavascript(sprintf('%s.checked', $this->getAccessor()));
     }
 
     /**
@@ -89,7 +89,7 @@ abstract class AbstractAccessor
      */
     public function getSelectedText()
     {
-        return $this->con->executeJavascript(sprintf('_sahi._getSelectedText(%s)', $this->getAccessor()));
+        return $this->con->evaluateJavascript(sprintf('_sahi._getSelectedText(%s)', $this->getAccessor()));
     }
 
     /**
@@ -275,7 +275,7 @@ abstract class AbstractAccessor
      */
     public function getValue()
     {
-        return $this->con->executeJavascript(sprintf('%s.value', $this->getAccessor()));
+        return $this->con->evaluateJavascript(sprintf('%s.value', $this->getAccessor()));
     }
 
     /**
@@ -285,7 +285,7 @@ abstract class AbstractAccessor
      */
     public function getName()
     {
-        return $this->con->executeJavascript(sprintf('%s.nodeName', $this->getAccessor()));
+        return $this->con->evaluateJavascript(sprintf('%s.nodeName', $this->getAccessor()));
     }
 
     /**
@@ -297,7 +297,7 @@ abstract class AbstractAccessor
      */
     public function getAttr($attr)
     {
-        return $this->con->executeJavascript(sprintf('%s.getAttribute("%s")', $this->getAccessor(), $attr));
+        return $this->con->evaluateJavascript(sprintf('%s.getAttribute("%s")', $this->getAccessor(), $attr));
     }
 
     /**
@@ -307,7 +307,7 @@ abstract class AbstractAccessor
      */
     public function getText()
     {
-        return $this->con->executeJavascript(sprintf('_sahi._getText(%s)', $this->getAccessor()));
+        return $this->con->evaluateJavascript(sprintf('_sahi._getText(%s)', $this->getAccessor()));
     }
 
     /**
@@ -317,7 +317,7 @@ abstract class AbstractAccessor
      */
     public function getHTML()
     {
-        return $this->con->executeJavascript(sprintf('%s.innerHTML', $this->getAccessor()));
+        return $this->con->evaluateJavascript(sprintf('%s.innerHTML', $this->getAccessor()));
     }
 
     /**
@@ -335,7 +335,7 @@ abstract class AbstractAccessor
      */
     public function isVisible()
     {
-        return 'true' === $this->con->executeJavascript(sprintf('_sahi._isVisible(%s)', $this->getAccessor()));
+        return 'true' === $this->con->evaluateJavascript(sprintf('_sahi._isVisible(%s)', $this->getAccessor()));
     }
 
     /**
@@ -345,7 +345,7 @@ abstract class AbstractAccessor
      */
     public function isExists()
     {
-        return 'true' === $this->con->executeJavascript(sprintf('_sahi._exists(%s)', $this->getAccessor()));
+        return 'true' === $this->con->evaluateJavascript(sprintf('_sahi._exists(%s)', $this->getAccessor()));
     }
 
     /**
