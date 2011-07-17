@@ -44,7 +44,7 @@ abstract class AbstractConnectionTest extends \PHPUnit_Framework_TestCase
         $connection = $this->getConnectionMock();
         $connection
             ->expects($this->once())
-            ->method('executeJavascript')
+            ->method('evaluateJavascript')
             ->with($expected)
             ->will($this->returnValue($return));
 

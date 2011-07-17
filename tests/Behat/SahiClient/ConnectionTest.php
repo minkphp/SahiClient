@@ -70,7 +70,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK', 'true'));
         $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK'));
 
-        $this->assertEquals(25, $con->executeJavascript('_sahi._lastConfirm()'));
+        $this->assertEquals(25, $con->evaluateJavascript('_sahi._lastConfirm()'));
         $this->assertEquals(3, count($this->browser->getJournal()));
 
         $request    = $this->browser->getJournal()->getFirst()->getRequest();
@@ -95,7 +95,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK', 'false'));
         $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK'));
 
-        $this->assertEquals(22, $con->executeJavascript('_sahi._lastConfirm()'));
+        $this->assertEquals(22, $con->evaluateJavascript('_sahi._lastConfirm()'));
         $this->assertEquals(5, count($this->browser->getJournal()));
 
         $request    = $this->browser->getJournal()->getFirst()->getRequest();
@@ -131,7 +131,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK', 'true'));
         $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK'));
 
-        $this->assertNull($con->executeJavascript('_sahi._lastConfirm()'));
+        $this->assertNull($con->evaluateJavascript('_sahi._lastConfirm()'));
         $this->assertEquals(3, count($this->browser->getJournal()));
 
         $request    = $this->browser->getJournal()->getLastRequest();
