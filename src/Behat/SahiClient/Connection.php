@@ -192,7 +192,7 @@ class Connection
     {
         $this->executeCommand('setStep', array('step' => $step));
 
-        $limit = 100;
+        $limit = 600;
         $check = 'false';
         while ('true' !== $check) {
             usleep(100000);

@@ -76,7 +76,7 @@ class Client
 
             $this->con->start($browserName);
 
-            $limit = 200;
+            $limit = 600;
             while (!$this->con->isReady()) {
                 usleep(100000);
                 if (--$limit <= 0) {
