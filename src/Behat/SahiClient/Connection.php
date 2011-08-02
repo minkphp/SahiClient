@@ -45,6 +45,12 @@ class Connection
      * @var     integer
      */
     private     $port;
+    /**
+     * Time limit to connection.
+     *
+     * @var     integer
+     */
+    private     $limit;
 
     /**
      * HTTP Browser instance.
@@ -63,6 +69,8 @@ class Connection
      */
     public function __construct($sid = null, $host = 'localhost', $port = 9999, Buzz\Browser $browser = null)
     {
+        $this->limit = 600;
+
         if (null !== $sid) {
             $this->customSidProvided = true;
         }
@@ -188,11 +196,11 @@ class Connection
      *
      * @throws  BrowserException    if step execution has errors
      */
-    public function executeStep($step)
+    public function executeStep($step, $limit = null)
     {
         $this->executeCommand('setStep', array('step' => $step));
 
-        $limit = 600;
+        $limit = $limit ?: $this->limit;
         $check = 'false';
         while ('true' !== $check) {
             usleep(100000);
@@ -216,11 +224,11 @@ class Connection
      *
      * @return  string|null
      */
-    public function evaluateJavascript($expression)
+    public function evaluateJavascript($expression, $limit = null)
     {
         $key = '___lastValue___' . uniqid();
         $this->executeStep(
-            sprintf("_sahi.setServerVarPlain(%s, %s)", "'" . $key . "'", $expression)
+            sprintf("_sahi.setServerVarPlain(%s, %s)", "'" . $key . "'", $expression), $limit
         );
 
         $resp = $this->executeCommand('getVariable', array('key' => $key));
@@ -233,9 +241,9 @@ class Connection
      *
      * @param   string  $expression JS expression
      */
-    public function executeJavascript($expression)
+    public function executeJavascript($expression, $limit = null)
     {
-        $this->executeStep(sprintf("_sahi._call(%s)", $expression));
+        $this->executeStep(sprintf("_sahi._call(%s)", $expression), $limit);
     }
 
     /**
