@@ -173,7 +173,7 @@ class Client
     public function wait($time, $condition)
     {
         $this->con->executeJavascript(
-            sprintf('_sahi._wait(%d, %s)', $time, $condition), $time * 1000
+            sprintf('_sahi._wait(%d, %s)', $time, $condition), intval($time / 100) + 200
         );
     }
 
