@@ -193,6 +193,7 @@ class Connection
      * Execute Sahi step.
      *
      * @param   string  $step       step command
+     * @param   integer $limit      time limit (value of 10 === 1 second)
      *
      * @throws  BrowserException    if step execution has errors
      */
@@ -221,6 +222,7 @@ class Connection
      * Evaluates JS expression on the browser and returns it's value.
      *
      * @param   string  $expression JS expression
+     * @param   integer $limit      time limit (value of 10 === 1 second)
      *
      * @return  string|null
      */
