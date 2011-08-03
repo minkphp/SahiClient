@@ -44,16 +44,6 @@ class Client
     }
 
     /**
-     * Close sahi connection.
-     */
-    public function __destruct()
-    {
-        if ($this->started) {
-            $this->stop();
-        }
-    }
-
-    /**
      * Start Sahi browser session.
      *
      * @param   string  $browserName    (firefox, ie, safari, chrome, opera)
