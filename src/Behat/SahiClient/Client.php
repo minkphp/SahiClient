@@ -162,9 +162,12 @@ class Client
      */
     public function wait($time, $condition)
     {
-        $this->con->executeJavascript(
-            sprintf('_sahi._wait(%d, %s)', $time, $condition), intval($time / 100) + 200
-        );
+        $conditionResult = false;
+        while ($time > 0 && 'true' !== $conditionResult) {
+            usleep(100);
+            $time -= 100;
+            $conditionResult = $this->con->evaluateJavascript($condition);
+        }
     }
 
     /**
