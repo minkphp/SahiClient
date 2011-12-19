@@ -10,6 +10,7 @@ Usage
 
 1. First, install & configure Sahi as [described here](http://sahi.co.in/w/using-sahi)
 2. Install `SahiClient` deps:
+
     ``` bash
     wget -nc http://getcomposer.org/composer.phar
     php composer.phar install
