@@ -184,7 +184,8 @@ class SharedActionsTest extends AbstractAccessorTest
     {
         $this->assertActionJavascript(
             '_sahi._isVisible(' . $selector . ')', 'true',
-            array($accessor, 'isVisible')
+            array($accessor, 'isVisible'),
+            array(), true
         );
     }
 
@@ -195,7 +196,8 @@ class SharedActionsTest extends AbstractAccessorTest
     {
         $this->assertActionJavascript(
             '_sahi._exists(' . $selector . ')', 'true',
-            array($accessor, 'isExists')
+            array($accessor, 'isExists'),
+            array(), true
         );
     }
 }
