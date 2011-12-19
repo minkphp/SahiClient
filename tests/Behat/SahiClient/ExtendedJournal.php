@@ -8,11 +8,15 @@ class ExtendedJournal extends Journal
 {
     public function getFirst()
     {
-        return $this->entries[0];
+        return $this->get(0);
     }
 
     public function get($num)
     {
-        return $this->entries[$num];
+        foreach ($this as $i => $val) {
+            if ($num === (count($this) - $i - 1)) {
+                return $val;
+            }
+        }
     }
 }

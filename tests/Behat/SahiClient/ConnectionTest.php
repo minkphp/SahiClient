@@ -4,8 +4,9 @@ namespace Test\Behat\SahiClient;
 
 use Buzz\Browser;
 use Buzz\Message;
-use Buzz\Client\Mock;
+use Buzz\Listener;
 use Behat\SahiClient\Connection;
+require_once 'ClientQueue.php';
 require_once 'ExtendedJournal.php';
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
@@ -14,7 +15,8 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->browser = new Browser(new Mock\LIFO(), new ExtendedJournal());
+        $this->browser = new Browser(new ClientQueue());
+        $this->browser->setListener(new Listener\HistoryListener(new ExtendedJournal()));
     }
 
     public function testExecuteCommand()
@@ -24,7 +26,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK', 'all works fine'));
 
         $response   = $con->executeCommand('setSpeed', array('speed' => 2000, 'milli' => 'true'));
-        $request    = $this->browser->getJournal()->getLastRequest();
+        $request    = $this->browser->getListener()->getJournal()->getLastRequest();
 
         $this->assertSame($this->browser, $con->getBrowser());
         $this->assertEquals('all works fine', $response);
@@ -41,10 +43,10 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
 
         $con->executeStep('_sahi._clearLastAlert()');
 
-        $this->assertEquals(2, count($this->browser->getJournal()));
+        $this->assertEquals(2, count($this->browser->getListener()->getJournal()));
 
-        $request    = $this->browser->getJournal()->getFirst()->getRequest();
-        $response   = $this->browser->getJournal()->getFirst()->getResponse();
+        $request    = $this->browser->getListener()->getJournal()->getFirst()->getRequest();
+        $response   = $this->browser->getListener()->getJournal()->getFirst()->getResponse();
         $this->assertEquals('http://localhost:9999/_s_/dyn/Driver_setStep', $request->getUrl());
         $this->assertContains('step=' . urlencode('_sahi._clearLastAlert()'), $request->getContent());
     }
@@ -71,15 +73,15 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK'));
 
         $this->assertEquals(25, $con->evaluateJavascript('_sahi._lastConfirm()'));
-        $this->assertEquals(3, count($this->browser->getJournal()));
+        $this->assertEquals(3, count($this->browser->getListener()->getJournal()));
 
-        $request    = $this->browser->getJournal()->getFirst()->getRequest();
+        $request    = $this->browser->getListener()->getJournal()->getFirst()->getRequest();
         $this->assertEquals('http://localhost:9999/_s_/dyn/Driver_setStep', $request->getUrl());
         $this->assertContains('step=' . urlencode('_sahi.setServerVarPlain('), $request->getContent());
         $this->assertContains(urlencode('_sahi._lastConfirm()'), $request->getContent());
 
-        $request    = $this->browser->getJournal()->getLastRequest();
-        $response   = $this->browser->getJournal()->getLastResponse();
+        $request    = $this->browser->getListener()->getJournal()->getLastRequest();
+        $response   = $this->browser->getListener()->getJournal()->getLastResponse();
         $this->assertEquals('http://localhost:9999/_s_/dyn/Driver_getVariable', $request->getUrl());
         $this->assertContains('key=___lastValue___', $request->getContent());
         $this->assertEquals('25' , $response->getContent());
@@ -96,15 +98,15 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK'));
 
         $this->assertEquals(22, $con->evaluateJavascript('_sahi._lastConfirm()'));
-        $this->assertEquals(5, count($this->browser->getJournal()));
+        $this->assertEquals(5, count($this->browser->getListener()->getJournal()));
 
-        $request    = $this->browser->getJournal()->getFirst()->getRequest();
+        $request    = $this->browser->getListener()->getJournal()->getFirst()->getRequest();
         $this->assertEquals('http://localhost:9999/_s_/dyn/Driver_setStep', $request->getUrl());
         $this->assertContains('step=' . urlencode('_sahi.setServerVarPlain('), $request->getContent());
         $this->assertContains(urlencode('_sahi._lastConfirm()'), $request->getContent());
 
-        $request    = $this->browser->getJournal()->getLastRequest();
-        $response   = $this->browser->getJournal()->getLastResponse();
+        $request    = $this->browser->getListener()->getJournal()->getLastRequest();
+        $response   = $this->browser->getListener()->getJournal()->getLastResponse();
         $this->assertEquals('http://localhost:9999/_s_/dyn/Driver_getVariable', $request->getUrl());
         $this->assertContains('key=___lastValue___', $request->getContent());
         $this->assertEquals('22' , $response->getContent());
@@ -132,10 +134,10 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->browser->getClient()->sendToQueue($this->createResponse('1.0 200 OK'));
 
         $this->assertNull($con->evaluateJavascript('_sahi._lastConfirm()'));
-        $this->assertEquals(3, count($this->browser->getJournal()));
+        $this->assertEquals(3, count($this->browser->getListener()->getJournal()));
 
-        $request    = $this->browser->getJournal()->getLastRequest();
-        $response   = $this->browser->getJournal()->getLastResponse();
+        $request    = $this->browser->getListener()->getJournal()->getLastRequest();
+        $response   = $this->browser->getListener()->getJournal()->getLastResponse();
 
         $this->assertEquals('http://localhost:9999/_s_/dyn/Driver_getVariable', $request->getUrl());
         $this->assertContains('key=___lastValue___', $request->getContent());
@@ -180,7 +182,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $connection = new Connection($sid, 'localhost', 9999, $browser);
 
         if ($correct) {
-            $browser->getJournal()->clear();
+            $browser->getListener()->getJournal()->clear();
         }
 
         return $connection;
