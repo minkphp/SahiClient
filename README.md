@@ -27,14 +27,12 @@ Usage
 
     $client = new Client();
     $client->start('firefox');
-    ....
     ```
 
 3. And now, you can work with `$browser` object as with Sahi remote controll:
 
     ``` php
     <?php
-    ...
 
     $client->navigateTo('http://some_page.loc');
 
@@ -43,14 +41,12 @@ Usage
     $link->click();
 
     $h1Text = $client->findHeader(2)->getText();
-    ....
     ```
 
 4. After tests, turn browser off:
 
     ``` php
     <?php
-    ...
     $client->stop();
     ```
 
