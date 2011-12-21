@@ -170,7 +170,9 @@ class Client
             // don't throw exceptions
             try {
                 $conditionResult = $this->con->evaluateJavascript($condition);
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+                $conditionResult = false;
+            }
         }
     }
 
