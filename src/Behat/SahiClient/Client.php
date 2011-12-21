@@ -166,7 +166,11 @@ class Client
         while ($time > 0 && 'true' !== $conditionResult) {
             usleep(100);
             $time -= 100;
-            $conditionResult = $this->con->evaluateJavascript($condition);
+
+            // don't throw exceptions
+            try {
+                $conditionResult = $this->con->evaluateJavascript($condition);
+            } catch (\Exception $e) {}
         }
     }
 
