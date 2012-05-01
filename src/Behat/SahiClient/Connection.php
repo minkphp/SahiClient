@@ -66,10 +66,11 @@ class Connection
      * @param   string      $host       Sahi proxy host
      * @param   integer     $port       Sahi proxy port
      * @param   BuzzBrowser $browser    HTTP browser instance
+     * @param   integer     $limit      Time limit to connection
      */
-    public function __construct($sid = null, $host = 'localhost', $port = 9999, Buzz\Browser $browser = null)
+    public function __construct($sid = null, $host = 'localhost', $port = 9999, Buzz\Browser $browser = null, $limit = 600)
     {
-        $this->limit = 600;
+        $this->limit = $limit;
 
         if (null !== $sid) {
             $this->customSidProvided = true;
