@@ -50,11 +50,6 @@ Usage
     $client->stop();
     ```
 
-Copyright
----------
-
-SahiClient Copyright (c) 2011 Konstantin Kudryashov (ever.zet). See LICENSE for details.
-
 Contributors
 ------------
 
