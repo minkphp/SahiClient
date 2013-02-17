@@ -2,9 +2,7 @@
 
 namespace Test\Behat\SahiClient;
 
-use Buzz\History\Journal;
-
-class ExtendedJournal extends Journal
+class ExtendedJournal extends \Buzz\Listener\History\Journal
 {
     public function getFirst()
     {

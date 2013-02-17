@@ -2,10 +2,11 @@
 
 namespace Test\Behat\SahiClient;
 
-use Buzz\Client;
-use Buzz\Message;
+use Buzz\Client\ClientInterface;
+use Buzz\Message\MessageInterface;
+use Buzz\Message\RequestInterface;
 
-class ClientQueue implements Client\ClientInterface
+class ClientQueue implements ClientInterface
 {
     protected $queue = array();
 
@@ -24,9 +25,9 @@ class ClientQueue implements Client\ClientInterface
     /**
      * Sends a response into the queue.
      *
-     * @param Message\Response $response A response
+     * @param MessageInterface $response A response
      */
-    public function sendToQueue(Message\Response $response)
+    public function sendToQueue(MessageInterface $response)
     {
         $this->queue[] = $response;
     }
@@ -34,7 +35,7 @@ class ClientQueue implements Client\ClientInterface
     /**
      * Receives a response from the queue.
      *
-     * @return Message\Response|null
+     * @return MessageInterface|null
      */
     public function receiveFromQueue()
     {
@@ -44,9 +45,9 @@ class ClientQueue implements Client\ClientInterface
     }
 
     /**
-     * @see Client\ClientInterface
+     * @see ClientInterface
      */
-    public function send(Message\Request $request, Message\Response $response)
+    public function send(RequestInterface $request, MessageInterface $response)
     {
         if (!$queued = $this->receiveFromQueue()) {
             throw new \LogicException('There are no queued responses.');
