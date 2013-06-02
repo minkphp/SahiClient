@@ -159,6 +159,8 @@ class Client
      *
      * @param   integer $time       time in milliseconds
      * @param   string  $condition  JS condition
+     *
+     * @return boolean
      */
     public function wait($time, $condition)
     {
@@ -174,6 +176,8 @@ class Client
                 $conditionResult = false;
             }
         }
+
+        return $conditionResult;
     }
 
     /**
