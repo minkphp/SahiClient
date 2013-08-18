@@ -30,6 +30,13 @@ class FormAccessorTest extends AbstractAccessorTest
 
         $this->assertEquals('_sahi._option("Man")', $accessor->getAccessor());
         $this->assertSame($this->con, $accessor->getConnection());
+
+        $this->assertActionJavascript(
+            '_sahi._option("Man").selected', 'true',
+            array($accessor, 'isSelected'),
+            array(), true
+        );
+
         $this->assertRelations($accessor, '_sahi._option("Man", ');
     }
 
