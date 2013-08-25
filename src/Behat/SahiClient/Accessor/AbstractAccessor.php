@@ -349,6 +349,16 @@ abstract class AbstractAccessor
     }
 
     /**
+     * Return true if checkbox/radio checked.
+     *
+     * @return  boolean
+     */
+    public function submitForm()
+    {
+        $this->con->evaluateJavascript(sprintf('%s.submit()', $this->getAccessor()));
+    }
+
+    /**
      * Return accessor string.
      *
      * @return  string
