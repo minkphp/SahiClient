@@ -161,6 +161,23 @@ class SharedActionsTest extends AbstractAccessorTest
     /**
      * @dataProvider    getAccessors
      */
+    public function testGetEmptyAttr(Accessor\AbstractAccessor $accessor, $selector)
+    {
+        $connection = $this->getConnectionMock();
+        $connection
+            ->expects($this->once())
+            ->method('evaluateJavascript')
+            ->with($selector . '.getAttribute("test-attr")')
+            ->will($this->returnValue(false));
+
+        $accessor->setConnection($connection);
+
+        $this->assertEquals('', $accessor->getAttr('test-attr'));
+    }
+
+    /**
+     * @dataProvider    getAccessors
+     */
     public function testGetText(Accessor\AbstractAccessor $accessor, $selector)
     {
         $this->assertActionJavascript(

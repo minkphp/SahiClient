@@ -297,7 +297,14 @@ abstract class AbstractAccessor
      */
     public function getAttr($attr)
     {
-        return $this->con->evaluateJavascript(sprintf('%s.getAttribute("%s")', $this->getAccessor(), $attr));
+        $attributeValue = $this->con->evaluateJavascript(sprintf('%s.getAttribute("%s")', $this->getAccessor(), $attr));
+
+        if ($attributeValue === false) {
+            // see https://github.com/kriswallsmith/Buzz/pull/138 bug
+            return '';
+        }
+
+        return $attributeValue;
     }
 
     /**
