@@ -65,7 +65,7 @@ class ClientTest extends AbstractConnectionTest
             ->expects($this->any())
             ->method('evaluateJavascript')
             ->with('found-element')
-            ->will($this->returnValue(true));
+            ->will($this->returnValue('true'));
 
         $this->assertTrue($this->api->wait(500, 'found-element'));
     }
@@ -84,7 +84,7 @@ class ClientTest extends AbstractConnectionTest
             ->expects($this->any())
             ->method('evaluateJavascript')
             ->with('not-found-element')
-            ->will($this->returnValue(false));
+            ->will($this->returnValue('false'));
 
         $this->assertFalse($this->api->wait(500, 'not-found-element'));
     }
