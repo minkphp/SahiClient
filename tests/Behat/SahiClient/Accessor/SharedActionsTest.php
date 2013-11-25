@@ -217,4 +217,15 @@ class SharedActionsTest extends AbstractAccessorTest
             array(), true
         );
     }
+
+    /**
+    * @dataProvider    getAccessors
+    */
+   public function testSubmitForm(Accessor\AbstractAccessor $accessor, $selector)
+   {
+       $this->assertActionJavascript(
+           $selector . '.submit()', null,
+           array($accessor, 'submitForm')
+       );
+   }
 }
