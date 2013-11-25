@@ -177,7 +177,7 @@ class Client
             }
         }
 
-        return $conditionResult;
+        return 'true' === $conditionResult;
     }
 
     /**
