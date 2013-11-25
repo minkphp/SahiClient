@@ -83,6 +83,16 @@ abstract class AbstractAccessor
     }
 
     /**
+     * Return true if option selected.
+     *
+     * @return  boolean
+     */
+    public function isSelected()
+    {
+        return "true" === $this->con->evaluateJavascript(sprintf('%s.selected', $this->getAccessor()));
+    }
+
+    /**
      * Return selected text from selectbox.
      *
      * @return  string
