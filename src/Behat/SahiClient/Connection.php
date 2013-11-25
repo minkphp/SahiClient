@@ -184,7 +184,7 @@ class Connection
         )->getContent();
 
         if (false !== strpos($content, 'SAHI_ERROR')) {
-            throw new Exception\ConnectionException('Sahi proxy error');
+            throw new Exception\ConnectionException('Sahi proxy error. Full response:' . PHP_EOL . $content);
         }
 
         return $content;
