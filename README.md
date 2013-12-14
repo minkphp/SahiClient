@@ -1,6 +1,8 @@
 SahiClient
 ==========
 
+[![Latest Stable Version](https://poser.pugx.org/behat/sahi-client/v/stable.png)](https://packagist.org/packages/behat/sahi-client)
+[![Total Downloads](https://poser.pugx.org/behat/sahi-client/downloads.png)](https://packagist.org/packages/behat/sahi-client)
 [![Build Status](https://secure.travis-ci.org/Behat/SahiClient.png)](http://travis-ci.org/Behat/SahiClient)
 
 Driver to [Sahi](http://sahi.co.in/w/sahi) JS test automation tool.
