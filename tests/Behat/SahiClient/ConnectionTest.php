@@ -6,6 +6,7 @@ use Buzz\Browser;
 use Buzz\Message;
 use Buzz\Listener;
 use Behat\SahiClient\Connection;
+
 require_once 'ClientQueue.php';
 require_once 'ExtendedJournal.php';
 
@@ -84,7 +85,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $response   = $this->browser->getListener()->getJournal()->getLastResponse();
         $this->assertEquals('http://localhost:9999/_s_/dyn/Driver_getVariable', $request->getUrl());
         $this->assertContains('key=___lastValue___', $request->getContent());
-        $this->assertEquals('25' , $response->getContent());
+        $this->assertEquals('25', $response->getContent());
     }
 
     public function testLongExecuteJavascript()
@@ -109,7 +110,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $response   = $this->browser->getListener()->getJournal()->getLastResponse();
         $this->assertEquals('http://localhost:9999/_s_/dyn/Driver_getVariable', $request->getUrl());
         $this->assertContains('key=___lastValue___', $request->getContent());
-        $this->assertEquals('22' , $response->getContent());
+        $this->assertEquals('22', $response->getContent());
     }
 
     /**

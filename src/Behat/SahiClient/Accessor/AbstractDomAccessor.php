@@ -23,9 +23,9 @@ abstract class AbstractDomAccessor extends AbstractRelationalAccessor
     /**
      * Element identifier
      *
-     * @var     string
+     * @var string
      */
-    protected   $id;
+    protected $id;
 
     /**
      * Initialize Accessor.
@@ -79,9 +79,7 @@ abstract class AbstractDomAccessor extends AbstractRelationalAccessor
     /**
      * Convert identificator to JavaScript id instruction.
      *
-     * @param   mixed   $id element identificator
-     *
-     * @return  string              JavaScript id instruction
+     * @return string JavaScript id instruction
      */
     private function getIdentifierArgumentString()
     {

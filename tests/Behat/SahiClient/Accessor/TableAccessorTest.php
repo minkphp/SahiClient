@@ -24,13 +24,9 @@ class TableAccessorTest extends AbstractAccessorTest
         $this->assertRelations($accessor, '_sahi._cell(2, ');
 
         $table = new Accessor\Table\TableAccessor('tableId', array(), $this->con);
-        $accessor = new Accessor\Table\CellAccessor(
-            array($table, 'header2', 'value11'), array(), $this->con
-        );
+        $accessor = new Accessor\Table\CellAccessor(array($table, 'header2', 'value11'), array(), $this->con);
 
-        $this->assertEquals(
-            '_sahi._cell(_sahi._table("tableId"), "header2", "value11")', $accessor->getAccessor()
-        );
+        $this->assertEquals('_sahi._cell(_sahi._table("tableId"), "header2", "value11")', $accessor->getAccessor());
         $this->assertSame($this->con, $accessor->getConnection());
         $this->assertRelations($accessor, '_sahi._cell(_sahi._table("tableId"), "header2", "value11", ');
     }

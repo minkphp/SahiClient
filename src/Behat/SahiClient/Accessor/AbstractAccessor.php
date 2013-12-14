@@ -22,9 +22,9 @@ abstract class AbstractAccessor
     /**
      * Sahi Driver instance.
      *
-     * @var     Driver
+     * @var Driver
      */
-    protected   $con;
+    protected $con;
 
     /**
      * Initialize Accessor.
@@ -105,7 +105,8 @@ abstract class AbstractAccessor
     /**
      * Choose option in select box.
      *
-     * @param   string  $val    option value
+     * @param string $val        option value
+     * @param null   $isMultiple is multiple
      */
     public function choose($val, $isMultiple = null)
     {

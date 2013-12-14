@@ -46,7 +46,10 @@ class Client
     /**
      * Start Sahi browser session.
      *
-     * @param   string  $browserName    (firefox, ie, safari, chrome, opera)
+     * @param   string $browserName (firefox, ie, safari, chrome, opera)
+     *
+     * @throws Exception\ConnectionException
+     * @throws \InvalidArgumentException
      */
     public function start($browserName = null)
     {
@@ -235,9 +238,8 @@ class Client
     /**
      * Find DIV element.
      *
-     * @param   string  $id         element identifier
-     * @param   string  $tag        tag name
-     * @param   array   $relations  tag relations (near, in, under)
+     * @param   string $id        element identifier
+     * @param   array  $relations tag relations (near, in, under)
      *
      * @return  DivAccessor
      */

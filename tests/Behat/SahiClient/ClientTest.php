@@ -3,6 +3,7 @@
 namespace Test\Behat\SahiClient;
 
 use Behat\SahiClient\Client;
+
 require_once 'AbstractConnectionTest.php';
 
 class ClientTest extends AbstractConnectionTest
@@ -45,7 +46,8 @@ class ClientTest extends AbstractConnectionTest
     public function testSetSpeed()
     {
         $this->assertActionCommand(
-            'setSpeed', array('speed' => 12),
+            'setSpeed',
+            array('speed' => 12),
             array($this->api, 'setSpeed'),
             array(12)
         );

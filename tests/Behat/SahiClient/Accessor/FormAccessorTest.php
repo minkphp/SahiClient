@@ -32,9 +32,11 @@ class FormAccessorTest extends AbstractAccessorTest
         $this->assertSame($this->con, $accessor->getConnection());
 
         $this->assertActionJavascript(
-            '_sahi._option("Man").selected', 'true',
+            '_sahi._option("Man").selected',
+            'true',
             array($accessor, 'isSelected'),
-            array(), true
+            array(),
+            true
         );
 
         $this->assertRelations($accessor, '_sahi._option("Man", ');
@@ -48,9 +50,11 @@ class FormAccessorTest extends AbstractAccessorTest
         $this->assertSame($this->con, $accessor->getConnection());
         $this->assertActionStep('_sahi._check(_sahi._radio("id"))', array($accessor, 'check'));
         $this->assertActionJavascript(
-            '_sahi._radio("id").checked', 'true',
+            '_sahi._radio("id").checked',
+            'true',
             array($accessor, 'isChecked'),
-            array(), true
+            array(),
+            true
         );
         $this->assertRelations($accessor, '_sahi._radio("id", ');
     }
@@ -64,9 +68,11 @@ class FormAccessorTest extends AbstractAccessorTest
         $this->assertActionStep('_sahi._check(_sahi._checkbox("id"))', array($accessor, 'check'));
         $this->assertActionStep('_sahi._uncheck(_sahi._checkbox("id"))', array($accessor, 'uncheck'));
         $this->assertActionJavascript(
-            '_sahi._checkbox("id").checked', 'true',
+            '_sahi._checkbox("id").checked',
+            'true',
             array($accessor, 'isChecked'),
-            array(), true
+            array(),
+            true
         );
         $this->assertRelations($accessor, '_sahi._checkbox("id", ');
     }
@@ -128,7 +134,8 @@ class FormAccessorTest extends AbstractAccessorTest
         $this->assertEquals('_sahi._select("city")', $accessor->getAccessor());
         $this->assertSame($this->con, $accessor->getConnection());
         $this->assertActionJavascript(
-            '_sahi._getSelectedText(_sahi._select("city"))', 'New York',
+            '_sahi._getSelectedText(_sahi._select("city"))',
+            'New York',
             array($accessor, 'getSelectedText')
         );
 

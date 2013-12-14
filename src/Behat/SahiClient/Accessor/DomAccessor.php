@@ -23,9 +23,9 @@ class DomAccessor extends AbstractAccessor
     /**
      * Element ID
      *
-     * @var     string
+     * @var string
      */
-    protected   $id;
+    protected $id;
 
     /**
      * Initialize Accessor.
