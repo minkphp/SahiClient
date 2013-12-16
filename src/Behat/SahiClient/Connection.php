@@ -24,51 +24,55 @@ class Connection
     /**
      * Sahi SID
      *
-     * @var     integer
+     * @var integer
      */
-    private     $sid;
+    private $sid;
+
     /**
      * Is custom SID provided to connection
      *
-     * @var     Boolean
+     * @var Boolean
      */
-    private     $customSidProvided = false;
+    private $customSidProvided = false;
+
     /**
      * Sahi proxy hostname
      *
-     * @var     string
+     * @var string
      */
-    private     $host;
+    private $host;
+
     /**
      * Sahi proxy port number
      *
-     * @var     integer
+     * @var integer
      */
-    private     $port;
+    private $port;
+
     /**
      * Time limit to connection.
      *
-     * @var     integer
+     * @var integer
      */
-    private     $limit;
+    private $limit;
 
     /**
      * HTTP Browser instance.
      *
-     * @var     BrowserInterface
+     * @var BrowserInterface
      */
-    protected   $browser;
+    protected $browser;
 
     /**
      * Initialize Sahi Driver.
      *
-     * @param   string      $sid        Sahi SID
-     * @param   string      $host       Sahi proxy host
-     * @param   integer     $port       Sahi proxy port
-     * @param   BuzzBrowser $browser    HTTP browser instance
-     * @param   integer     $limit      Time limit to connection
+     * @param string        $sid     Sahi SID
+     * @param string        $host    Sahi proxy host
+     * @param integer       $port    Sahi proxy port
+     * @param \Buzz\Browser $browser HTTP browser instance
+     * @param integer       $limit   Time limit to connection
      */
-    public function __construct($sid = null, $host = 'localhost', $port = 9999, Buzz\Browser $browser = null, $limit = 600)
+    public function __construct($sid = null, $host = 'localhost', $port = 9999, \Buzz\Browser $browser = null, $limit = 600)
     {
         $this->limit = $limit;
 
@@ -231,7 +235,8 @@ class Connection
     {
         $key = '___lastValue___' . uniqid();
         $this->executeStep(
-            sprintf("_sahi.setServerVarPlain(%s, %s)", "'" . $key . "'", $expression), $limit
+            sprintf("_sahi.setServerVarPlain(%s, %s)", "'" . $key . "'", $expression),
+            $limit
         );
 
         $resp = $this->executeCommand('getVariable', array('key' => $key));
@@ -243,6 +248,7 @@ class Connection
      * Execute JS expression on the browser.
      *
      * @param   string  $expression JS expression
+     * @param   integer $limit      time limit (value of 10 === 1 second)
      */
     public function executeJavascript($expression, $limit = null)
     {

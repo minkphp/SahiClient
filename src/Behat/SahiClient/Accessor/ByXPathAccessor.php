@@ -23,15 +23,16 @@ class ByXPathAccessor extends AbstractRelationalAccessor
     /**
      * XPath expression
      *
-     * @var     string
+     * @var string
      */
-    protected   $xpath;
+    protected $xpath;
 
     /**
      * Initialize Accessor.
      *
-     * @param   string      $xpath  XPath expression
-     * @param   Connection  $con    Sahi connection
+     * @param string     $xpath     XPath expression
+     * @param array      $relations Relations
+     * @param Connection $con       Sahi connection
      */
     public function __construct($xpath, array $relations, Connection $con)
     {

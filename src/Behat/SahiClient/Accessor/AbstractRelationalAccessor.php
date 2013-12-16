@@ -20,9 +20,9 @@ abstract class AbstractRelationalAccessor extends AbstractAccessor
     /**
      * DOM relations.
      *
-     * @var     array
+     * @var array
      */
-    private     $relations = array();
+    private $relations = array();
 
     /**
      * Add _in DOM relation.

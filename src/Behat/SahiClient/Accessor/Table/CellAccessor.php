@@ -21,16 +21,18 @@ use Behat\SahiClient\Exception;
  */
 class CellAccessor extends AbstractDomAccessor
 {
-    private     $table;
-    private     $rowText;
-    private     $colText;
+    private $table;
+    private $rowText;
+    private $colText;
 
     /**
      * Initialize Accessor.
      *
-     * @param   string|array    $id         simple element identifier or array of (Table, rowText, colText)
-     * @param   array           $relations  relations array array('near' => accessor, 'under' => accessor)
-     * @param   Connection      $con        Sahi connection
+     * @param string|array $id        simple element identifier or array of (Table, rowText, colText)
+     * @param array        $relations relations array array('near' => accessor, 'under' => accessor)
+     * @param Connection   $con       Sahi connection
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct($id, array $relations, Connection $con)
     {

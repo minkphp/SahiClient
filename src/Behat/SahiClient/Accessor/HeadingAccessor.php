@@ -23,9 +23,9 @@ class HeadingAccessor extends AbstractDomAccessor
     /**
      * Heading level
      *
-     * @var     integer
+     * @var integer
      */
-    private     $level = 1;
+    private $level = 1;
 
     /**
      * Initialize Heading accessor.

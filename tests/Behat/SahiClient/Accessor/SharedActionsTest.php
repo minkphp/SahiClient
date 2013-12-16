@@ -141,7 +141,8 @@ class SharedActionsTest extends AbstractAccessorTest
         );
 
         $this->assertActionJavascript(
-            $selector . '.value', '23',
+            $selector . '.value',
+            '23',
             array($accessor, 'getValue')
         );
     }
@@ -152,7 +153,8 @@ class SharedActionsTest extends AbstractAccessorTest
     public function testGetAttr(Accessor\AbstractAccessor $accessor, $selector)
     {
         $this->assertActionJavascript(
-            $selector . '.getAttribute("checked")', 'true',
+            $selector . '.getAttribute("checked")',
+            'true',
             array($accessor, 'getAttr'),
             array('checked')
         );
@@ -181,7 +183,8 @@ class SharedActionsTest extends AbstractAccessorTest
     public function testGetText(Accessor\AbstractAccessor $accessor, $selector)
     {
         $this->assertActionJavascript(
-            '_sahi._getText(' . $selector . ')', 'Some text',
+            '_sahi._getText(' . $selector . ')',
+            'Some text',
             array($accessor, 'getText')
         );
     }
@@ -200,9 +203,11 @@ class SharedActionsTest extends AbstractAccessorTest
     public function testIsVisible(Accessor\AbstractAccessor $accessor, $selector)
     {
         $this->assertActionJavascript(
-            '_sahi._isVisible(' . $selector . ')', 'true',
+            '_sahi._isVisible(' . $selector . ')',
+            'true',
             array($accessor, 'isVisible'),
-            array(), true
+            array(),
+            true
         );
     }
 
@@ -212,20 +217,23 @@ class SharedActionsTest extends AbstractAccessorTest
     public function testExists(Accessor\AbstractAccessor $accessor, $selector)
     {
         $this->assertActionJavascript(
-            '_sahi._exists(' . $selector . ')', 'true',
+            '_sahi._exists(' . $selector . ')',
+            'true',
             array($accessor, 'isExists'),
-            array(), true
+            array(),
+            true
         );
     }
 
     /**
     * @dataProvider    getAccessors
     */
-   public function testSubmitForm(Accessor\AbstractAccessor $accessor, $selector)
-   {
-       $this->assertActionJavascript(
-           $selector . '.submit()', null,
-           array($accessor, 'submitForm')
-       );
-   }
+    public function testSubmitForm(Accessor\AbstractAccessor $accessor, $selector)
+    {
+        $this->assertActionJavascript(
+            $selector . '.submit()',
+            null,
+            array($accessor, 'submitForm')
+        );
+    }
 }

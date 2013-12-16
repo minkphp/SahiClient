@@ -23,15 +23,15 @@ class ByTextAccessor extends AbstractAccessor
     /**
      * Tag text
      *
-     * @var     string
+     * @var string
      */
-    protected   $text;
+    protected $text;
     /**
      * Tag name
      *
-     * @var     string
+     * @var string
      */
-    protected   $tag;
+    protected $tag;
 
     /**
      * Initialize Accessor.
