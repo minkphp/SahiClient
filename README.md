@@ -3,7 +3,9 @@ SahiClient
 
 [![Latest Stable Version](https://poser.pugx.org/behat/sahi-client/v/stable.png)](https://packagist.org/packages/behat/sahi-client)
 [![Total Downloads](https://poser.pugx.org/behat/sahi-client/downloads.png)](https://packagist.org/packages/behat/sahi-client)
-[![Build Status](https://secure.travis-ci.org/Behat/SahiClient.png)](http://travis-ci.org/Behat/SahiClient)
+[![Build Status](https://travis-ci.org/Behat/SahiClient.png)](http://travis-ci.org/Behat/SahiClient)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/Behat/SahiClient/badges/quality-score.png?s=fae7607302bf3b6134eb51f62ac7d4509269df78)](https://scrutinizer-ci.com/g/Behat/SahiClient/)
+[![Code Coverage](https://scrutinizer-ci.com/g/Behat/SahiClient/badges/coverage.png?s=cefb14ee01d57bf0a6531e24e649ef944533884f)](https://scrutinizer-ci.com/g/Behat/SahiClient/)
 
 Driver to [Sahi](http://sahi.co.in/w/sahi) JS test automation tool.
 
