@@ -190,7 +190,7 @@ class Client
      * @param   string  $tag        tag name
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  ByClassNameAccessor
+     * @return  Accessor\ByClassNameAccessor
      */
     public function findByClassName($class, $tag, array $relations = array())
     {
@@ -202,7 +202,7 @@ class Client
      *
      * @param   string  $id element id
      *
-     * @return  ByIdAccessor
+     * @return  Accessor\ByIdAccessor
      */
     public function findById($id)
     {
@@ -215,7 +215,7 @@ class Client
      * @param   string  $text   tag text
      * @param   string  $tag    tag name
      *
-     * @return  ByTextAccessor
+     * @return  Accessor\ByTextAccessor
      */
     public function findByText($text, $tag)
     {
@@ -228,7 +228,7 @@ class Client
      * @param   string  $xpath      XPath expression
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  ByXPathAccessor
+     * @return  Accessor\ByXPathAccessor
      */
     public function findByXPath($xpath, array $relations = array())
     {
@@ -241,7 +241,7 @@ class Client
      * @param   string $id        element identifier
      * @param   array  $relations tag relations (near, in, under)
      *
-     * @return  DivAccessor
+     * @return  Accessor\DivAccessor
      */
     public function findDiv($id = null, array $relations = array())
     {
@@ -253,7 +253,7 @@ class Client
      *
      * @param   string  $dom    DOM expression
      *
-     * @return  DomAccessor
+     * @return  Accessor\DomAccessor
      */
     public function findDom($dom)
     {
@@ -267,7 +267,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  HeadingAccessor
+     * @return  Accessor\HeadingAccessor
      */
     public function findHeader($level = 1, $id = null, array $relations = array())
     {
@@ -280,7 +280,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  ImageAccessor
+     * @return  Accessor\ImageAccessor
      */
     public function findImage($id = null, array $relations = array())
     {
@@ -293,7 +293,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  LabelAccessor
+     * @return  Accessor\LabelAccessor
      */
     public function findLabel($id = null, array $relations = array())
     {
@@ -306,7 +306,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  LinkAccessor
+     * @return  Accessor\LinkAccessor
      */
     public function findLink($id = null, array $relations = array())
     {
@@ -319,7 +319,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  ListItemAccessor
+     * @return  Accessor\ListItemAccessor
      */
     public function findListItem($id = null, array $relations = array())
     {
@@ -332,7 +332,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  SpanAccessor
+     * @return  Accessor\SpanAccessor
      */
     public function findSpan($id = null, array $relations = array())
     {
@@ -345,7 +345,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  ButtonAccessor
+     * @return  Accessor\Form\ButtonAccessor
      */
     public function findButton($id = null, array $relations = array())
     {
@@ -358,7 +358,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  CheckboxAccessor
+     * @return  Accessor\Form\CheckboxAccessor
      */
     public function findCheckbox($id = null, array $relations = array())
     {
@@ -371,7 +371,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  FileAccessor
+     * @return  Accessor\Form\FileAccessor
      */
     public function findFile($id = null, array $relations = array())
     {
@@ -384,7 +384,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  HiddenAccessor
+     * @return  Accessor\Form\HiddenAccessor
      */
     public function findHidden($id = null, array $relations = array())
     {
@@ -397,7 +397,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  ImageSubmitButtonAccessor
+     * @return  Accessor\Form\ImageSubmitButtonAccessor
      */
     public function findImageSubmitButton($id = null, array $relations = array())
     {
@@ -410,7 +410,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  OptionAccessor
+     * @return  Accessor\Form\OptionAccessor
      */
     public function findOption($id = null, array $relations = array())
     {
@@ -423,7 +423,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  PasswordAccessor
+     * @return  Accessor\Form\PasswordAccessor
      */
     public function findPassword($id = null, array $relations = array())
     {
@@ -436,7 +436,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  RadioAccessor
+     * @return  Accessor\Form\RadioAccessor
      */
     public function findRadio($id = null, array $relations = array())
     {
@@ -449,7 +449,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  ResetAccessor
+     * @return  Accessor\Form\ResetAccessor
      */
     public function findReset($id = null, array $relations = array())
     {
@@ -462,7 +462,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  SelectAccessor
+     * @return  Accessor\Form\SelectAccessor
      */
     public function findSelect($id = null, array $relations = array())
     {
@@ -475,7 +475,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  SubmitAccessor
+     * @return  Accessor\Form\SubmitAccessor
      */
     public function findSubmit($id = null, array $relations = array())
     {
@@ -488,7 +488,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  TextareaAccessor
+     * @return  Accessor\Form\TextareaAccessor
      */
     public function findTextarea($id = null, array $relations = array())
     {
@@ -501,7 +501,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  TextboxAccessor
+     * @return  Accessor\Form\TextboxAccessor
      */
     public function findTextbox($id = null, array $relations = array())
     {
@@ -514,7 +514,7 @@ class Client
      * @param   string|array    $id         simple element identifier or array of (Table, rowText, colText)
      * @param   array           $relations  tag relations (near, in, under)
      *
-     * @return  CellAccessor
+     * @return  Accessor\Table\CellAccessor
      */
     public function findCell($id = null, array $relations = array())
     {
@@ -527,7 +527,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  RowAccessor
+     * @return  Accessor\Table\RowAccessor
      */
     public function findRow($id = null, array $relations = array())
     {
@@ -540,7 +540,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  TableHeaderAccessor
+     * @return  Accessor\Table\TableHeaderAccessor
      */
     public function findTableHeader($id = null, array $relations = array())
     {
@@ -553,7 +553,7 @@ class Client
      * @param   string  $id         element identifier
      * @param   array   $relations  tag relations (near, in, under)
      *
-     * @return  TableAccessor
+     * @return  Accessor\Table\TableAccessor
      */
     public function findTable($id = null, array $relations = array())
     {

@@ -3,7 +3,6 @@
 namespace Behat\SahiClient\Accessor;
 
 use Behat\SahiClient\Connection;
-use Behat\SahiClient\Exception;
 
 /*
  * This file is part of the Behat\SahiClient.
