@@ -2,7 +2,6 @@
 
 namespace Behat\SahiClient\Accessor;
 
-use Behat\SahiClient\Exception;
 use Behat\SahiClient\Connection;
 
 /*

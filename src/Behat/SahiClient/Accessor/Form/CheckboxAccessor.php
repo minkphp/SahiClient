@@ -2,8 +2,6 @@
 
 namespace Behat\SahiClient\Accessor\Form;
 
-use Behat\SahiClient\Exception;
-
 /*
  * This file is part of the Behat\SahiClient.
  * (c) 2010 Konstantin Kudryashov <ever.zet@gmail.com>

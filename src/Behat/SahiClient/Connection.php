@@ -3,7 +3,6 @@
 namespace Behat\SahiClient;
 
 use Buzz;
-
 use Behat\SahiClient\Exception;
 
 /*

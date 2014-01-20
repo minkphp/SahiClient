@@ -3,7 +3,6 @@
 namespace Behat\SahiClient\Accessor\Form;
 
 use Behat\SahiClient\Accessor\AbstractDomAccessor;
-use Behat\SahiClient\Exception;
 
 /*
  * This file is part of the Behat\SahiClient.

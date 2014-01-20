@@ -4,7 +4,6 @@ namespace Behat\SahiClient\Accessor\Table;
 
 use Behat\SahiClient\Connection;
 use Behat\SahiClient\Accessor\AbstractDomAccessor;
-use Behat\SahiClient\Exception;
 
 /*
  * This file is part of the Behat\SahiClient.
