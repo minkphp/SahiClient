@@ -1,9 +1,5 @@
 <?php
 
-namespace Behat\SahiClient\Accessor;
-
-use Behat\SahiClient\Connection;
-
 /*
  * This file is part of the Behat\SahiClient.
  * (c) 2010 Konstantin Kudryashov <ever.zet@gmail.com>
@@ -11,6 +7,10 @@ use Behat\SahiClient\Connection;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+namespace Behat\SahiClient\Accessor;
+
+use Behat\SahiClient\Connection;
 
 /**
  * DOM Accessor.
@@ -29,8 +29,8 @@ class DomAccessor extends AbstractAccessor
     /**
      * Initialize Accessor.
      *
-     * @param   string      $string DOM expression
-     * @param   Connection  $con    Sahi connection
+     * @param string     $string DOM expression
+     * @param Connection $con    Sahi connection
      */
     public function __construct($string, Connection $con)
     {

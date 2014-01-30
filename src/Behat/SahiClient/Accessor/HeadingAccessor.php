@@ -1,9 +1,5 @@
 <?php
 
-namespace Behat\SahiClient\Accessor;
-
-use Behat\SahiClient\Connection;
-
 /*
  * This file is part of the Behat\SahiClient.
  * (c) 2010 Konstantin Kudryashov <ever.zet@gmail.com>
@@ -11,6 +7,10 @@ use Behat\SahiClient\Connection;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+namespace Behat\SahiClient\Accessor;
+
+use Behat\SahiClient\Connection;
 
 /**
  * Heading Element Accessor (h1, h2, h3, ...).
@@ -29,10 +29,10 @@ class HeadingAccessor extends AbstractDomAccessor
     /**
      * Initialize Heading accessor.
      *
-     * @param   integer     $level      heading level (1 for H1, 2 for H2 etc.)
-     * @param   string      $id         element identifier (if null - "0" will be used)
-     * @param   array       $relations  relations array array('near' => accessor, 'under' => accessor)
-     * @param   Connection  $con        Sahi connection
+     * @param integer    $level     heading level (1 for H1, 2 for H2 etc.)
+     * @param string     $id        element identifier (if null - "0" will be used)
+     * @param array      $relations relations array array('near' => accessor, 'under' => accessor)
+     * @param Connection $con       Sahi connection
      */
     public function __construct($level, $id, array $relations, Connection $con)
     {
@@ -46,7 +46,7 @@ class HeadingAccessor extends AbstractDomAccessor
     /**
      * Return heading level.
      *
-     * @return  integer
+     * @return integer
      */
     public function getLevel()
     {

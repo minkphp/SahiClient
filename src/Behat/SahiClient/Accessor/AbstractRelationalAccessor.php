@@ -1,7 +1,5 @@
 <?php
 
-namespace Behat\SahiClient\Accessor;
-
 /*
  * This file is part of the Behat\SahiClient.
  * (c) 2010 Konstantin Kudryashov <ever.zet@gmail.com>
@@ -9,6 +7,8 @@ namespace Behat\SahiClient\Accessor;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+namespace Behat\SahiClient\Accessor;
 
 /**
  * Abstract Relational Accessor.
@@ -27,9 +27,9 @@ abstract class AbstractRelationalAccessor extends AbstractAccessor
     /**
      * Add _in DOM relation.
      *
-     * @param   AbstractAccessor    $accessor   accessor for relation
+     * @param AbstractAccessor $accessor accessor for relation
      *
-     * @return  AbstractRelationalAccessor
+     * @return AbstractRelationalAccessor
      */
     public function in(AbstractAccessor $accessor)
     {
@@ -41,9 +41,9 @@ abstract class AbstractRelationalAccessor extends AbstractAccessor
     /**
      * Add _near DOM relation.
      *
-     * @param   AbstractAccessor    $accessor   accessor for relation
+     * @param AbstractAccessor $accessor accessor for relation
      *
-     * @return  AbstractRelationalAccessor
+     * @return AbstractRelationalAccessor
      */
     public function near(AbstractAccessor $accessor)
     {
@@ -55,9 +55,9 @@ abstract class AbstractRelationalAccessor extends AbstractAccessor
     /**
      * Add _under DOM relation.
      *
-     * @param   AbstractAccessor    $accessor   accessor for relation
+     * @param AbstractAccessor $accessor accessor for relation
      *
-     * @return  AbstractRelationalAccessor
+     * @return AbstractRelationalAccessor
      */
     public function under(AbstractAccessor $accessor)
     {
@@ -69,7 +69,7 @@ abstract class AbstractRelationalAccessor extends AbstractAccessor
     /**
      * Return true if accessor has relations.
      *
-     * @return  boolean
+     * @return boolean
      */
     public function hasRelations()
     {
@@ -79,7 +79,7 @@ abstract class AbstractRelationalAccessor extends AbstractAccessor
     /**
      * Return relations Sahi arguments.
      *
-     * @return  string
+     * @return string
      */
     protected function getRelationArgumentsString()
     {
