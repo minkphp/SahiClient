@@ -175,7 +175,7 @@ class ClientTest extends AbstractConnectionTest
     public function testNavigateTo()
     {
         $this->assertActionStep(
-            '_sahi._navigateTo("http://sahi.co.in")', 'http:\/\/sahi.co.in',
+            '_sahi._navigateTo("http:\/\/sahi.co.in")',
             array($this->api, 'navigateTo'),
             array('http://sahi.co.in')
         );

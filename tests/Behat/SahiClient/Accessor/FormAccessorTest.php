@@ -144,6 +144,12 @@ class FormAccessorTest extends AbstractAccessorTest
         );
 
         $this->assertActionStep(
+            '_sahi._setSelected(_sahi._select("city"), "Moscow\nRussia")',
+            array($accessor, 'choose'),
+            array("Moscow\nRussia")
+        );
+
+        $this->assertActionStep(
             '_sahi._setSelected(_sahi._select("city"), "Minsk", true)',
             array($accessor, 'choose'),
             array('Minsk', true)
