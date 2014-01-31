@@ -2,11 +2,9 @@
 
 namespace Test\Behat\SahiClient\Accessor;
 
-require_once 'AbstractAccessorTest.php';
-
 use Behat\SahiClient\Accessor;
 
-class AccessorTest extends AbstractAccessorTest
+class SimpleAccessorTest extends AbstractAccessorTest
 {
     private $con;
 

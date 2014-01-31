@@ -2,8 +2,6 @@
 
 namespace Test\Behat\SahiClient\Accessor;
 
-require_once 'AbstractAccessorTest.php';
-
 use Behat\SahiClient\Accessor;
 
 class SharedActionsTest extends AbstractAccessorTest
@@ -25,7 +23,7 @@ class SharedActionsTest extends AbstractAccessorTest
     }
 
     /**
-     * @dataProvider    getAccessors
+     * @dataProvider getAccessors
      */
     public function testClickActions(Accessor\AbstractAccessor $accessor, $selector)
     {
@@ -35,7 +33,7 @@ class SharedActionsTest extends AbstractAccessorTest
     }
 
     /**
-     * @dataProvider    getAccessors
+     * @dataProvider getAccessors
      */
     public function testMouseAndFocusActions(Accessor\AbstractAccessor $accessor, $selector)
     {
@@ -46,7 +44,7 @@ class SharedActionsTest extends AbstractAccessorTest
     }
 
     /**
-     * @dataProvider    getAccessors
+     * @dataProvider getAccessors
      */
     public function testDragDropActions(Accessor\AbstractAccessor $accessor, $selector)
     {
@@ -76,7 +74,7 @@ class SharedActionsTest extends AbstractAccessorTest
     }
 
     /**
-     * @dataProvider    getAccessors
+     * @dataProvider getAccessors
      */
     public function testKeyActions(Accessor\AbstractAccessor $accessor, $selector)
     {
@@ -130,7 +128,7 @@ class SharedActionsTest extends AbstractAccessorTest
     }
 
     /**
-     * @dataProvider    getAccessors
+     * @dataProvider getAccessors
      */
     public function testValueActions(Accessor\AbstractAccessor $accessor, $selector)
     {
@@ -148,7 +146,7 @@ class SharedActionsTest extends AbstractAccessorTest
     }
 
     /**
-     * @dataProvider    getAccessors
+     * @dataProvider getAccessors
      */
     public function testGetAttr(Accessor\AbstractAccessor $accessor, $selector)
     {
@@ -161,7 +159,7 @@ class SharedActionsTest extends AbstractAccessorTest
     }
 
     /**
-     * @dataProvider    getAccessors
+     * @dataProvider getAccessors
      */
     public function testGetEmptyAttr(Accessor\AbstractAccessor $accessor, $selector)
     {
@@ -178,7 +176,7 @@ class SharedActionsTest extends AbstractAccessorTest
     }
 
     /**
-     * @dataProvider    getAccessors
+     * @dataProvider getAccessors
      */
     public function testGetText(Accessor\AbstractAccessor $accessor, $selector)
     {
@@ -190,7 +188,7 @@ class SharedActionsTest extends AbstractAccessorTest
     }
 
     /**
-     * @dataProvider    getAccessors
+     * @dataProvider getAccessors
      */
     public function testHighlight(Accessor\AbstractAccessor $accessor, $selector)
     {
@@ -198,7 +196,7 @@ class SharedActionsTest extends AbstractAccessorTest
     }
 
     /**
-     * @dataProvider    getAccessors
+     * @dataProvider getAccessors
      */
     public function testIsVisible(Accessor\AbstractAccessor $accessor, $selector)
     {
@@ -212,7 +210,7 @@ class SharedActionsTest extends AbstractAccessorTest
     }
 
     /**
-     * @dataProvider    getAccessors
+     * @dataProvider getAccessors
      */
     public function testExists(Accessor\AbstractAccessor $accessor, $selector)
     {
@@ -226,7 +224,7 @@ class SharedActionsTest extends AbstractAccessorTest
     }
 
     /**
-    * @dataProvider    getAccessors
+    * @dataProvider getAccessors
     */
     public function testSubmitForm(Accessor\AbstractAccessor $accessor, $selector)
     {

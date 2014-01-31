@@ -4,11 +4,8 @@ namespace Test\Behat\SahiClient;
 
 use Behat\SahiClient\Client;
 
-require_once 'AbstractConnectionTest.php';
-
 class ClientTest extends AbstractConnectionTest
 {
-
     /**
      * Client with a mocked connection.
      *
@@ -55,9 +52,6 @@ class ClientTest extends AbstractConnectionTest
 
     /**
      * Tests, that wait method returns $conditionResult.
-     *
-     * @return void
-     * @access public
      */
     public function testWaitReturnTrue()
     {
@@ -74,9 +68,6 @@ class ClientTest extends AbstractConnectionTest
 
     /**
      * Tests, that wait method returns $conditionResult.
-     *
-     * @return void
-     * @access public
      */
     public function testWaitReturnFalse()
     {

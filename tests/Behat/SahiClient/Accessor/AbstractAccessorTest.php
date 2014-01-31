@@ -2,14 +2,12 @@
 
 namespace Test\Behat\SahiClient\Accessor;
 
-require_once __DIR__ . '/../AbstractConnectionTest.php';
 use Test\Behat\SahiClient\AbstractConnectionTest;
-
 use Behat\SahiClient\Accessor;
 
 abstract class AbstractAccessorTest extends AbstractConnectionTest
 {
-    protected function assertRelations(Accessor\AbstractAccessor $accessor, $selectorStart)
+    protected function assertRelations(Accessor\AbstractRelationalAccessor $accessor, $selectorStart)
     {
         $con = $accessor->getConnection();
 
