@@ -129,8 +129,8 @@ class Client
     /**
      * Navigates to the given URL.
      *
-     * @param string  $url    URL
-     * @param boolean $reload force reload
+     * @param string       $url    URL
+     * @param boolean|null $reload force reload
      */
     public function navigateTo($url, $reload = null)
     {

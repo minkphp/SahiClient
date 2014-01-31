@@ -105,8 +105,8 @@ abstract class AbstractAccessor
     /**
      * Choose option in select box.
      *
-     * @param string $val        option value
-     * @param null   $isMultiple is multiple
+     * @param string       $val        option value
+     * @param boolean|null $isMultiple is multiple
      */
     public function choose($val, $isMultiple = null)
     {
@@ -203,7 +203,7 @@ abstract class AbstractAccessor
      *
      * @param integer $x        X
      * @param integer $y        Y
-     * @param boolean $relative relativity of position
+     * @param boolean|null $relative relativity of position
      */
     public function dragDropXY($x, $y, $relative = null)
     {
