@@ -134,7 +134,7 @@ class Client
      */
     public function navigateTo($url, $reload = null)
     {
-        $arguments = array('"' . str_replace('"', '\\"', $url) . '"');
+        $arguments = array(json_encode($url));
 
         if (null !== $reload) {
             $arguments[] = (bool) $reload ? 'true' : 'false';

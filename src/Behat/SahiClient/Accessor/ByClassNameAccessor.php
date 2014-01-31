@@ -59,8 +59,8 @@ class ByClassNameAccessor extends AbstractRelationalAccessor
     public function getAccessor()
     {
         $arguments   = array();
-        $arguments[] = '"' . $this->class . '"';
-        $arguments[] = '"' . $this->tag . '"';
+        $arguments[] = json_encode($this->class);
+        $arguments[] = json_encode($this->tag);
         if ($this->hasRelations()) {
             $arguments[] = $this->getRelationArgumentsString();
         }

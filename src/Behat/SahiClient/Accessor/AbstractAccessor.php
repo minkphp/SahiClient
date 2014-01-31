@@ -110,7 +110,7 @@ abstract class AbstractAccessor
      */
     public function choose($val, $isMultiple = null)
     {
-        $arguments = array('"' . str_replace('"', '\"', $val) . '"');
+        $arguments = array(json_encode($val));
         if (null !== $isMultiple) {
             $arguments[] = (bool) $isMultiple ? 'true' : 'false';
         }
@@ -128,7 +128,7 @@ abstract class AbstractAccessor
     public function setFile($path)
     {
         $this->con->executeStep(
-            sprintf('_sahi._setFile(%s, "%s")', $this->getAccessor(), str_replace('"', '\"', $path))
+            sprintf('_sahi._setFile(%s, %s)', $this->getAccessor(), json_encode($path))
         );
     }
 
@@ -275,7 +275,7 @@ abstract class AbstractAccessor
     public function setValue($val)
     {
         $this->con->executeStep(
-            sprintf('_sahi._setValue(%s, "%s")', $this->getAccessor(), str_replace('"', '\"', $val))
+            sprintf('_sahi._setValue(%s, %s)', $this->getAccessor(), json_encode($val))
         );
     }
 
@@ -308,7 +308,7 @@ abstract class AbstractAccessor
      */
     public function getAttr($attr)
     {
-        $attributeValue = $this->con->evaluateJavascript(sprintf('%s.getAttribute("%s")', $this->getAccessor(), $attr));
+        $attributeValue = $this->con->evaluateJavascript(sprintf('%s.getAttribute(%s)', $this->getAccessor(), json_encode($attr)));
 
         if ($attributeValue === false) {
             // see https://github.com/kriswallsmith/Buzz/pull/138 bug
@@ -403,20 +403,12 @@ abstract class AbstractAccessor
      */
     private function getKeyArgumentsString($charInfo, $combo)
     {
-        $arguments = array();
-
-        if (is_array($charInfo)) {
-            $arguments[] = '[' . implode(',', $charInfo) . ']';
-        } elseif (is_string($charInfo)) {
-            $arguments[] = '"' . $charInfo . '"';
-        } else {
-            $arguments[] = $charInfo;
-        }
+        $arguments = json_encode($charInfo);
 
         if (null !== $combo) {
-            $arguments[] = '"' . $combo . '"';
+            $arguments .= ', ' . json_encode($combo);
         }
 
-        return implode(', ', $arguments);
+        return $arguments;
     }
 }

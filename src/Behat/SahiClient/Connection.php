@@ -235,7 +235,7 @@ class Connection
     {
         $key = '___lastValue___' . uniqid();
         $this->executeStep(
-            sprintf("_sahi.setServerVarPlain(%s, %s)", "'" . $key . "'", $expression),
+            sprintf("_sahi.setServerVarPlain(%s, %s)", json_encode($key), $expression),
             $limit
         );
 
