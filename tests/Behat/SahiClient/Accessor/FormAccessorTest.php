@@ -82,7 +82,7 @@ class FormAccessorTest extends AbstractAccessorTest
         $this->assertEquals('_sahi._file("id")', $accessor->getAccessor());
         $this->assertSame($this->con, $accessor->getConnection());
         $this->assertActionStep(
-            '_sahi._setFile(_sahi._file("id"), "/tmp/simple.gif")',
+            '_sahi._setFile(_sahi._file("id"), "\/tmp\/simple.gif")',
             array($accessor, 'setFile'),
             array('/tmp/simple.gif')
         );
