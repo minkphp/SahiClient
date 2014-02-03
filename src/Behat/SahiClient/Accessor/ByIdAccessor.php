@@ -44,6 +44,6 @@ class ByIdAccessor extends AbstractAccessor
      */
     public function getAccessor()
     {
-        return sprintf('_sahi._byId("%s")', $this->id);
+        return sprintf('_sahi._byId(%s)', json_encode($this->id));
     }
 }

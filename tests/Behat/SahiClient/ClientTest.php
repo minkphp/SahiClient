@@ -175,19 +175,19 @@ class ClientTest extends AbstractConnectionTest
     public function testNavigateTo()
     {
         $this->assertActionStep(
-            sprintf('_sahi._navigateTo("%s")', 'http://sahi.co.in'),
+            '_sahi._navigateTo("http:\/\/sahi.co.in")',
             array($this->api, 'navigateTo'),
             array('http://sahi.co.in')
         );
 
         $this->assertActionStep(
-            sprintf('_sahi._navigateTo("%s", true)', 'http://sahi.co.in'),
+            '_sahi._navigateTo("http:\/\/sahi.co.in", true)',
             array($this->api, 'navigateTo'),
             array('http://sahi.co.in', true)
         );
 
         $this->assertActionStep(
-            sprintf('_sahi._navigateTo("%s", false)', 'http://sahi.co.in'),
+            '_sahi._navigateTo("http:\/\/sahi.co.in", false)',
             array($this->api, 'navigateTo'),
             array('http://sahi.co.in', false)
         );

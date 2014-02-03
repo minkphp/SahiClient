@@ -86,10 +86,6 @@ abstract class AbstractDomAccessor extends AbstractRelationalAccessor
             return '0';
         }
 
-        if (is_float($this->id) || is_int($this->id)) {
-            return $this->id;
-        }
-
-        return '"' . $this->id . '"';
+        return json_encode($this->id);
     }
 }

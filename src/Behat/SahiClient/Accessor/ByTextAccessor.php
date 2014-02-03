@@ -52,6 +52,6 @@ class ByTextAccessor extends AbstractAccessor
      */
     public function getAccessor()
     {
-        return sprintf('_sahi._byText("%s", "%s")', $this->text, $this->tag);
+        return sprintf('_sahi._byText(%s, %s)', json_encode($this->text), json_encode($this->tag));
     }
 }

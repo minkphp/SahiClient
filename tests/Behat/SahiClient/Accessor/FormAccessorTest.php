@@ -82,7 +82,7 @@ class FormAccessorTest extends AbstractAccessorTest
         $this->assertEquals('_sahi._file("id")', $accessor->getAccessor());
         $this->assertSame($this->con, $accessor->getConnection());
         $this->assertActionStep(
-            '_sahi._setFile(_sahi._file("id"), "/tmp/simple.gif")',
+            '_sahi._setFile(_sahi._file("id"), "\/tmp\/simple.gif")',
             array($accessor, 'setFile'),
             array('/tmp/simple.gif')
         );
@@ -141,6 +141,12 @@ class FormAccessorTest extends AbstractAccessorTest
             '_sahi._setSelected(_sahi._select("city"), "Moscow")',
             array($accessor, 'choose'),
             array('Moscow')
+        );
+
+        $this->assertActionStep(
+            '_sahi._setSelected(_sahi._select("city"), "Moscow\nRussia")',
+            array($accessor, 'choose'),
+            array("Moscow\nRussia")
         );
 
         $this->assertActionStep(

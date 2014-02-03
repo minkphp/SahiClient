@@ -66,8 +66,8 @@ class CellAccessor extends AbstractDomAccessor
         if (null !== $this->table) {
             $arguments   = array();
             $arguments[] = $this->table->getAccessor();
-            $arguments[] = '"' . str_replace('"', '\"', $this->rowText) . '"';
-            $arguments[] = '"' . str_replace('"', '\"', $this->colText) . '"';
+            $arguments[] = json_encode($this->rowText);
+            $arguments[] = json_encode($this->colText);
 
             if ($this->hasRelations()) {
                 $arguments[] = $this->getRelationArgumentsString();
