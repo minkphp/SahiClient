@@ -31,10 +31,9 @@ class FormAccessorTest extends AbstractAccessorTest
 
         $this->assertActionJavascript(
             '_sahi._option("Man").selected',
-            'true',
+            true,
             array($accessor, 'isSelected'),
-            array(),
-            true
+            array()
         );
 
         $this->assertRelations($accessor, '_sahi._option("Man", ');
@@ -49,10 +48,9 @@ class FormAccessorTest extends AbstractAccessorTest
         $this->assertActionStep('_sahi._check(_sahi._radio("id"))', array($accessor, 'check'));
         $this->assertActionJavascript(
             '_sahi._radio("id").checked',
-            'true',
+            true,
             array($accessor, 'isChecked'),
-            array(),
-            true
+            array()
         );
         $this->assertRelations($accessor, '_sahi._radio("id", ');
     }
@@ -67,10 +65,9 @@ class FormAccessorTest extends AbstractAccessorTest
         $this->assertActionStep('_sahi._uncheck(_sahi._checkbox("id"))', array($accessor, 'uncheck'));
         $this->assertActionJavascript(
             '_sahi._checkbox("id").checked',
-            'true',
+            true,
             array($accessor, 'isChecked'),
-            array(),
-            true
+            array()
         );
         $this->assertRelations($accessor, '_sahi._checkbox("id", ');
     }

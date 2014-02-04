@@ -165,7 +165,7 @@ class Client
     public function wait($time, $condition)
     {
         $conditionResult = false;
-        while ($time > 0 && 'true' !== $conditionResult) {
+        while ($time > 0 && true !== $conditionResult) {
             usleep(100);
             $time -= 100;
 
@@ -177,7 +177,7 @@ class Client
             }
         }
 
-        return 'true' === $conditionResult;
+        return (boolean) $conditionResult;
     }
 
     /**

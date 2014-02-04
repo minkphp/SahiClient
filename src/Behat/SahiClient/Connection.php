@@ -229,19 +229,19 @@ class Connection
      * @param string  $expression JS expression
      * @param integer $limit      time limit (value of 10 === 1 second)
      *
-     * @return string|null
+     * @return mixed
      */
     public function evaluateJavascript($expression, $limit = null)
     {
         $key = '___lastValue___' . uniqid();
         $this->executeStep(
-            sprintf("_sahi.setServerVarPlain(%s, %s)", json_encode($key), $expression),
+            sprintf("_sahi.setServerVarPlain(%s, JSON.stringify(%s))", json_encode($key), $expression),
             $limit
         );
 
         $resp = $this->executeCommand('getVariable', array('key' => $key));
 
-        return 'null' === $resp ? null : $resp;
+        return json_decode($resp, true);
     }
 
     /**

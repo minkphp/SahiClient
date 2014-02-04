@@ -39,7 +39,7 @@ abstract class AbstractConnectionTest extends \PHPUnit_Framework_TestCase
         call_user_func_array($command, $arguments);
     }
 
-    protected function assertActionJavascript($expected, $return, array $command, array $arguments = array(), $trueReturn = null)
+    protected function assertActionJavascript($expected, $return, array $command, array $arguments = array())
     {
         $connection = $this->getConnectionMock();
         $connection
@@ -50,6 +50,6 @@ abstract class AbstractConnectionTest extends \PHPUnit_Framework_TestCase
 
         $command[0]->setConnection($connection);
 
-        $this->assertEquals($trueReturn ?: $return, call_user_func_array($command, $arguments));
+        $this->assertEquals($return, call_user_func_array($command, $arguments));
     }
 }
