@@ -157,17 +157,17 @@ class Client
      * Waits for timeInMilliseconds ms or till the condition is satisfied on the browser,
      * which ever is sooner.
      *
-     * @param integer $time      time in milliseconds
+     * @param integer $timeout   timeout in milliseconds
      * @param string  $condition JS condition
      *
      * @return boolean
      */
-    public function wait($time, $condition)
+    public function wait($timeout, $condition)
     {
         $conditionResult = false;
-        while ($time > 0 && true !== $conditionResult) {
+        while ($timeout > 0 && true !== $conditionResult) {
             usleep(100);
-            $time -= 100;
+            $timeout -= 100;
 
             // don't throw exceptions
             try {
