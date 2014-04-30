@@ -24,6 +24,12 @@
         }
     },
 
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\Behat\\SahiClient\\":  "tests/Behat/SahiClient"
+        }
+    },
+
     "extra": {
         "branch-alias": {
             "dev-master": "1.2.x-dev"
