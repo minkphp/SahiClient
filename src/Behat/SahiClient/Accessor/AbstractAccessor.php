@@ -329,13 +329,23 @@ abstract class AbstractAccessor
     }
 
     /**
-     * Return inner text of element.
+     * Return inner html of element.
      *
      * @return string
      */
     public function getHTML()
     {
         return $this->con->evaluateJavascript(sprintf('%s.innerHTML', $this->getAccessor()));
+    }
+
+    /**
+     * Return outer html of element.
+     *
+     * @return string
+     */
+    public function getOuterHTML()
+    {
+        return $this->con->evaluateJavascript(sprintf('%s.outerHTML', $this->getAccessor()));
     }
 
     /**

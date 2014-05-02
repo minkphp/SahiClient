@@ -148,6 +148,18 @@ class SharedActionsTest extends AbstractAccessorTest
     /**
      * @dataProvider getAccessors
      */
+    public function testGetName(Accessor\AbstractAccessor $accessor, $selector)
+    {
+        $this->assertActionJavascript(
+            $selector . '.nodeName',
+            'p',
+            array($accessor, 'getName')
+        );
+    }
+
+    /**
+     * @dataProvider getAccessors
+     */
     public function testGetAttr(Accessor\AbstractAccessor $accessor, $selector)
     {
         $this->assertActionJavascript(
@@ -190,6 +202,30 @@ class SharedActionsTest extends AbstractAccessorTest
     /**
      * @dataProvider getAccessors
      */
+    public function testGetHTML(Accessor\AbstractAccessor $accessor, $selector)
+    {
+        $this->assertActionJavascript(
+            $selector . '.innerHTML',
+            '<p>Some text</p>',
+            array($accessor, 'getHTML')
+        );
+    }
+
+    /**
+     * @dataProvider getAccessors
+     */
+    public function testGetOuterHTML(Accessor\AbstractAccessor $accessor, $selector)
+    {
+        $this->assertActionJavascript(
+            $selector . '.outerHTML',
+            '<div><p>Some text</p></div>',
+            array($accessor, 'getOuterHTML')
+        );
+    }
+
+    /**
+     * @dataProvider getAccessors
+     */
     public function testHighlight(Accessor\AbstractAccessor $accessor, $selector)
     {
         $this->assertActionStep('_sahi._highlight(' . $selector . ')', array($accessor, 'highlight'));
@@ -222,8 +258,8 @@ class SharedActionsTest extends AbstractAccessorTest
     }
 
     /**
-    * @dataProvider getAccessors
-    */
+     * @dataProvider getAccessors
+     */
     public function testSubmitForm(Accessor\AbstractAccessor $accessor, $selector)
     {
         $this->assertActionJavascript(
