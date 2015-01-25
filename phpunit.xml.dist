@@ -3,13 +3,13 @@
 <phpunit colors="true" bootstrap="vendor/autoload.php">
     <testsuites>
         <testsuite name="SahiClient Test Suite">
-            <directory>./tests/Behat/SahiClient/</directory>
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>./src/Behat/</directory>
+            <directory>./src</directory>
         </whitelist>
     </filter>
 </phpunit>

@@ -19,14 +19,14 @@
     },
 
     "autoload": {
-        "psr-0": {
-            "Behat\\SahiClient":  "src/"
+        "psr-4": {
+            "Behat\\SahiClient\\":  "src/"
         }
     },
 
     "autoload-dev": {
         "psr-4": {
-            "Test\\Behat\\SahiClient\\":  "tests/Behat/SahiClient"
+            "Test\\Behat\\SahiClient\\":  "tests"
         }
     },
 
